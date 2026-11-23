@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Data;
 using System.Windows.Forms;
+using SandriasDeliciousConcept.Data;
+using Microsoft.Data.SqlClient;
 
 namespace SandriasDeliciousConcept.Purchasing
 {
@@ -23,6 +23,34 @@ namespace SandriasDeliciousConcept.Purchasing
         }
 
         private void PurchasingDashboard_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSuppliers_Click(object sender, EventArgs e)
+        {
+            using (SupplierForm supplierForm = new SupplierForm())
+            {
+                supplierForm.ShowDialog(this);
+            }
+        }
+            
+        private void btnPurchaseRequests_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnQuotations_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnPurchaseOrders_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnPurchaseHistory_Click(object sender, EventArgs e)
         {
 
         }

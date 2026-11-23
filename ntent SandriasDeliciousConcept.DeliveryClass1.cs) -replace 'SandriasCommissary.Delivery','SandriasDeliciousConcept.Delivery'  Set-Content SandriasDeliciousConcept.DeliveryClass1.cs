@@ -1,0 +1,20 @@
+[35mREADME.md[m[36m:[m# [1;31mSandriasCommissary[m
+[35mSandriasDeliciousConcept.Data/DatabaseInitializer.cs[m[36m:[m    public const string DatabaseName = "[1;31mSandriasCommissary[mDb";
+[35mSandriasDeliciousConcept.Delivery/Class1.cs[m[36m:[m﻿namespace [1;31mSandriasCommissary[m.Delivery
+[35mSandriasDeliciousConcept.Purchasing/App.config[m[36m:[m        <add name="SandriasDeliciousConcept.Purchasing.Properties.Settings.[1;31mSandriasCommissary[mDBConnectionString"
+[35mSandriasDeliciousConcept.Purchasing/App.config[m[36m:[m            connectionString="Data Source=LAPTOP-OA3F3CET\SQLEXPRESS;Initial Catalog=[1;31mSandriasCommissary[mDB;Integrated Security=True;TrustServerCertificate=True"
+[35mSandriasDeliciousConcept.Purchasing/Class1.cs[m[36m:[m﻿namespace [1;31mSandriasCommissary[m.Purchasing
+[35mSandriasDeliciousConcept.Purchasing/Properties/Settings.Designer.cs[m[36m:[m        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=LAPTOP-OA3F3CET\\SQLEXPRESS;Initial Catalog=[1;31mSandriasCommissary[mDB;Integ" +
+[35mSandriasDeliciousConcept.Purchasing/Properties/Settings.Designer.cs[m[36m:[m        public string [1;31mSandriasCommissary[mDBConnectionString {
+[35mSandriasDeliciousConcept.Purchasing/Properties/Settings.Designer.cs[m[36m:[m                return ((string)(this["[1;31mSandriasCommissary[mDBConnectionString"]));
+[35mSandriasDeliciousConcept.Purchasing/Properties/Settings.settings[m[36m:[m    <Setting Name="[1;31mSandriasCommissary[mDBConnectionString" Type="(Connection string)" Scope="Application">
+[35mSandriasDeliciousConcept.Purchasing/Properties/Settings.settings[m[36m:[m  &lt;ConnectionString&gt;Data Source=LAPTOP-OA3F3CET\SQLEXPRESS;Initial Catalog=[1;31mSandriasCommissary[mDB;Integrated Security=True;TrustServerCertificate=True&lt;/ConnectionString&gt;
+[35mSandriasDeliciousConcept.Purchasing/Properties/Settings.settings[m[36m:[m      <Value Profile="(Default)">Data Source=LAPTOP-OA3F3CET\SQLEXPRESS;Initial Catalog=[1;31mSandriasCommissary[mDB;Integrated Security=True;TrustServerCertificate=True</Value>
+[35mSandriasDeliciousConcept.Purchasing/PurchasingData.dbml[m[36m:[m﻿<?xml version="1.0" encoding="utf-8"?><Database Name="[1;31mSandriasCommissary[mDB" Class="PurchasingDataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+[35mSandriasDeliciousConcept.Purchasing/PurchasingData.dbml[m[36m:[m  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-OA3F3CET\SQLEXPRESS;Initial Catalog=[1;31mSandriasCommissary[mDB;Integrated Security=True;Trust Server Certificate=True" SettingsObjectName="SandriasDeliciousConcept.Purchasing.Properties.Settings" SettingsPropertyName="[1;31mSandriasCommissary[mDBConnectionString" Provider="System.Data.SqlClient" />
+[35mSandriasDeliciousConcept.Purchasing/PurchasingData.designer.cs[m[36m:[m	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="[1;31mSandriasCommissary[mDB")]
+[35mSandriasDeliciousConcept.Purchasing/PurchasingData.designer.cs[m[36m:[m				base(global::SandriasDeliciousConcept.Purchasing.Properties.Settings.Default.[1;31mSandriasCommissary[mDBConnectionString, mappingSource)
+[35mSandriasDeliciousConcept.UI/SandriasDeliciousConcept.UI.csproj[m[36m:[m    <ProjectReference Include="..\[1;31mSandriasCommissary[m.Delivery\SandriasDeliciousConcept.Delivery.csproj" />
+[35mSandriasDeliciousConcept.UI/SandriasDeliciousConcept.UI.csproj[m[36m:[m    <ProjectReference Include="..\[1;31mSandriasCommissary[m.Purchasing\SandriasDeliciousConcept.Purchasing.csproj" />
+[35mSandriasDeliciousConcept.slnx[m[36m:[m  <Project Path="[1;31mSandriasCommissary[m.Delivery/SandriasDeliciousConcept.Delivery.csproj" Id="7e7d30ac-3252-44d5-be85-88ed523e686b" />
+[35mSandriasDeliciousConcept.slnx[m[36m:[m  <Project Path="[1;31mSandriasCommissary[m.Purchasing/SandriasDeliciousConcept.Purchasing.csproj" Id="7ac48fd1-4859-42de-9b6d-a000af7b1776" />
