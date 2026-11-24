@@ -1,11 +1,4 @@
-﻿
--- =============================================
--- 031_PURCHASING_PROCEDURES.SQL
--- Sandria's Delicious Concept ERP
--- =============================================
-
--- 1. ADD SUPPLIER
-CREATE OR ALTER PROCEDURE dbo.usp_Supplier_Add
+﻿CREATE OR ALTER PROCEDURE dbo.usp_Supplier_Add
     @SupplierName NVARCHAR(150),
     @ContactPerson NVARCHAR(100) = NULL,
     @ContactNumber NVARCHAR(30) = NULL,
@@ -30,7 +23,6 @@ BEGIN
 END;
 GO
 
--- 2. GET ALL SUPPLIERS
 CREATE OR ALTER PROCEDURE dbo.usp_Supplier_GetAll
 AS
 BEGIN
@@ -44,7 +36,6 @@ BEGIN
 END;
 GO
 
--- 3. GET SUPPLIER BY ID
 CREATE OR ALTER PROCEDURE dbo.usp_Supplier_GetById
     @SupplierID INT
 AS
@@ -57,7 +48,6 @@ BEGIN
 END;
 GO
 
--- 4. UPDATE SUPPLIER
 CREATE OR ALTER PROCEDURE dbo.usp_Supplier_Update
     @SupplierID INT,
     @SupplierName NVARCHAR(150),
@@ -82,7 +72,6 @@ BEGIN
 END;
 GO
 
--- 5. CHANGE SUPPLIER STATUS
 CREATE OR ALTER PROCEDURE dbo.usp_Supplier_SetStatus
     @SupplierID INT,
     @Status NVARCHAR(20)
@@ -98,7 +87,6 @@ BEGIN
 END;
 GO
 
--- 6. ADD SUPPLIER QUOTATION
 CREATE OR ALTER PROCEDURE dbo.usp_Quotation_Add
     @QuotationNumber NVARCHAR(50),
     @SupplierID INT,
@@ -124,7 +112,6 @@ BEGIN
 END;
 GO
 
--- 7. GET ALL QUOTATIONS
 CREATE OR ALTER PROCEDURE dbo.usp_Quotation_GetAll
 AS
 BEGIN
@@ -147,7 +134,6 @@ BEGIN
 END;
 GO
 
--- 8. ADD QUOTATION ITEM
 CREATE OR ALTER PROCEDURE dbo.usp_QuotationItem_Add
     @QuotationID INT,
     @ItemID INT,
@@ -171,7 +157,6 @@ BEGIN
 END;
 GO
 
--- 9. GET QUOTATION ITEMS
 CREATE OR ALTER PROCEDURE dbo.usp_QuotationItem_GetByQuotation
     @QuotationID INT
 AS
@@ -195,7 +180,6 @@ BEGIN
 END;
 GO
 
--- 10. CHANGE QUOTATION STATUS
 CREATE OR ALTER PROCEDURE dbo.usp_Quotation_SetStatus
     @QuotationID INT,
     @Status NVARCHAR(30)
@@ -211,7 +195,6 @@ BEGIN
 END;
 GO
 
--- 11. ADD PURCHASE ORDER
 CREATE OR ALTER PROCEDURE dbo.usp_PurchaseOrder_Add
     @PONumber NVARCHAR(50),
     @SupplierID INT,
@@ -237,7 +220,6 @@ BEGIN
 END;
 GO
 
--- 12. GET ALL PURCHASE ORDERS
 CREATE OR ALTER PROCEDURE dbo.usp_PurchaseOrder_GetAll
 AS
 BEGIN
@@ -260,8 +242,6 @@ BEGIN
     ORDER BY po.OrderDate DESC;
 END;
 GO
-
--- 13. ADD PURCHASE ORDER ITEM
 CREATE OR ALTER PROCEDURE dbo.usp_PurchaseOrderItem_Add
     @PurchaseOrderID INT,
     @ItemID INT,
@@ -302,8 +282,6 @@ BEGIN
     END CATCH;
 END;
 GO
-
--- 14. GET PURCHASE ORDER ITEMS
 CREATE OR ALTER PROCEDURE dbo.usp_PurchaseOrderItem_GetByPO
     @PurchaseOrderID INT
 AS
@@ -327,7 +305,6 @@ BEGIN
 END;
 GO
 
--- 15. CHANGE PURCHASE ORDER STATUS
 CREATE OR ALTER PROCEDURE dbo.usp_PurchaseOrder_SetStatus
     @PurchaseOrderID INT,
     @Status NVARCHAR(30)
@@ -343,7 +320,6 @@ BEGIN
 END;
 GO
 
--- 16. ADD PURCHASE LOG / ACTIVITY
 CREATE OR ALTER PROCEDURE dbo.usp_PurchaseLog_Add
     @PurchaseOrderID INT = NULL,
     @ActivityType NVARCHAR(50),
@@ -366,7 +342,6 @@ BEGIN
 END;
 GO
 
--- 17. ADD PURCHASE LOG ITEM
 CREATE OR ALTER PROCEDURE dbo.usp_PurchaseLogItem_Add
     @PurchaseLogID INT,
     @ItemID INT,
@@ -389,7 +364,6 @@ BEGIN
 END;
 GO
 
--- 18. GET ALL PURCHASE LOGS
 CREATE OR ALTER PROCEDURE dbo.usp_PurchaseLog_GetAll
 AS
 BEGIN
@@ -410,7 +384,6 @@ BEGIN
 END;
 GO
 
--- 19. GET PURCHASE LOG ITEMS
 CREATE OR ALTER PROCEDURE dbo.usp_PurchaseLogItem_GetByLog
     @PurchaseLogID INT
 AS

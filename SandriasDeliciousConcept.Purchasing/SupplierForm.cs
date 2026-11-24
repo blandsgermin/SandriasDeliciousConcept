@@ -21,7 +21,13 @@ namespace SandriasDeliciousConcept.Purchasing
             SetupSupplierGrid();
             SetupSearchFilter();
             SetFieldsReadOnly(true);
-            LoadSuppliers();
+
+            // Load database records only when running the application.
+            if (System.ComponentModel.LicenseManager.UsageMode
+                != System.ComponentModel.LicenseUsageMode.Designtime)
+            {
+                LoadSuppliers();
+            }
         }
         private void StyleSupplierButtons()
         {
@@ -483,9 +489,25 @@ namespace SandriasDeliciousConcept.Purchasing
         private void btnPurchaseOrder_Click(object sender, EventArgs e)
         {
         }
-
         private void btnPurchaseHistory_Click(object sender, EventArgs e)
         {
+        }
+        public void PrepareForDashboard()
+        {
+            // Hide the SupplierForm sidebar and header
+            panel1.Visible = false;
+            panel2.Visible = false;
+
+            // Move the remaining controls to the left
+            foreach (Control control in Controls)
+            {
+                if (control != panel1 && control != panel2)
+                {
+                    control.Left -= 230;
+                }
+            }
+
+            BackColor = Color.WhiteSmoke;
         }
     }
 }

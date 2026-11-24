@@ -51,15 +51,15 @@
             btnSave = new Button();
             btnRefresh = new Button();
             panel1 = new Panel();
-            panel2 = new Panel();
-            label7 = new Label();
-            btnDashboard = new Button();
-            btnSuppliers = new Button();
-            btnPurchaseRequest = new Button();
-            btnQuotations = new Button();
-            btnPurchaseOrder = new Button();
-            btnPurchaseHistory = new Button();
             label8 = new Label();
+            btnPurchaseHistory = new Button();
+            btnPurchaseOrder = new Button();
+            btnQuotations = new Button();
+            btnPurchaseRequest = new Button();
+            btnSuppliers = new Button();
+            btnDashboard = new Button();
+            label7 = new Label();
+            panel2 = new Panel();
             label9 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvSuppliers).BeginInit();
             grpSupplierDetails.SuspendLayout();
@@ -300,91 +300,15 @@
             panel1.Size = new Size(230, 661);
             panel1.TabIndex = 12;
             // 
-            // panel2
+            // label8
             // 
-            panel2.BackColor = Color.White;
-            panel2.Controls.Add(label9);
-            panel2.ForeColor = SystemColors.ControlLightLight;
-            panel2.Location = new Point(227, 1);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(755, 58);
-            panel2.TabIndex = 13;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 22.2F, FontStyle.Bold);
-            label7.ForeColor = Color.White;
-            label7.Location = new Point(30, 135);
-            label7.Name = "label7";
-            label7.Size = new Size(170, 50);
-            label7.TabIndex = 0;
-            label7.Text = "Sandrias";
-            // 
-            // btnDashboard
-            // 
-            btnDashboard.FlatAppearance.BorderSize = 0;
-            btnDashboard.FlatStyle = FlatStyle.Flat;
-            btnDashboard.ForeColor = Color.White;
-            btnDashboard.Location = new Point(0, 308);
-            btnDashboard.Name = "btnDashboard";
-            btnDashboard.Size = new Size(227, 45);
-            btnDashboard.TabIndex = 1;
-            btnDashboard.Text = "Dashboard";
-            btnDashboard.UseVisualStyleBackColor = true;
-            btnDashboard.Click += btnDashboard_Click;
-            // 
-            // btnSuppliers
-            // 
-            btnSuppliers.FlatAppearance.BorderSize = 0;
-            btnSuppliers.FlatStyle = FlatStyle.Flat;
-            btnSuppliers.ForeColor = Color.White;
-            btnSuppliers.Location = new Point(0, 358);
-            btnSuppliers.Name = "btnSuppliers";
-            btnSuppliers.Size = new Size(227, 45);
-            btnSuppliers.TabIndex = 2;
-            btnSuppliers.Text = "Suppliers";
-            btnSuppliers.UseVisualStyleBackColor = true;
-            btnSuppliers.Click += btnSuppliers_Click;
-            // 
-            // btnPurchaseRequest
-            // 
-            btnPurchaseRequest.FlatAppearance.BorderSize = 0;
-            btnPurchaseRequest.FlatStyle = FlatStyle.Flat;
-            btnPurchaseRequest.ForeColor = Color.White;
-            btnPurchaseRequest.Location = new Point(3, 408);
-            btnPurchaseRequest.Name = "btnPurchaseRequest";
-            btnPurchaseRequest.Size = new Size(227, 45);
-            btnPurchaseRequest.TabIndex = 3;
-            btnPurchaseRequest.Text = "Purchase Request";
-            btnPurchaseRequest.UseVisualStyleBackColor = true;
-            btnPurchaseRequest.Click += btnPurchaseRequest_Click;
-            // 
-            // btnQuotations
-            // 
-            btnQuotations.FlatAppearance.BorderSize = 0;
-            btnQuotations.FlatStyle = FlatStyle.Flat;
-            btnQuotations.ForeColor = Color.White;
-            btnQuotations.Location = new Point(0, 458);
-            btnQuotations.Name = "btnQuotations";
-            btnQuotations.Size = new Size(227, 45);
-            btnQuotations.TabIndex = 4;
-            btnQuotations.Text = "Quotations";
-            btnQuotations.UseVisualStyleBackColor = true;
-            btnQuotations.Click += btnQuotations_Click;
-            // 
-            // btnPurchaseOrder
-            // 
-            btnPurchaseOrder.FlatAppearance.BorderSize = 0;
-            btnPurchaseOrder.FlatStyle = FlatStyle.Flat;
-            btnPurchaseOrder.ForeColor = Color.White;
-            btnPurchaseOrder.Location = new Point(0, 508);
-            btnPurchaseOrder.Name = "btnPurchaseOrder";
-            btnPurchaseOrder.Size = new Size(227, 45);
-            btnPurchaseOrder.TabIndex = 5;
-            btnPurchaseOrder.Text = "Purchase Order";
-            btnPurchaseOrder.UseVisualStyleBackColor = true;
-            btnPurchaseOrder.Click += btnPurchaseOrder_Click;
+            label8.AutoSize = true;
+            label8.ForeColor = Color.White;
+            label8.Location = new Point(50, 198);
+            label8.Name = "label8";
+            label8.Size = new Size(129, 20);
+            label8.TabIndex = 7;
+            label8.Text = "Delicious Concept";
             // 
             // btnPurchaseHistory
             // 
@@ -399,15 +323,93 @@
             btnPurchaseHistory.UseVisualStyleBackColor = true;
             btnPurchaseHistory.Click += btnPurchaseHistory_Click;
             // 
-            // label8
+            // btnPurchaseOrder
             // 
-            label8.AutoSize = true;
-            label8.ForeColor = Color.White;
-            label8.Location = new Point(50, 198);
-            label8.Name = "label8";
-            label8.Size = new Size(129, 20);
-            label8.TabIndex = 7;
-            label8.Text = "Delicious Concept";
+            btnPurchaseOrder.FlatAppearance.BorderSize = 0;
+            btnPurchaseOrder.FlatStyle = FlatStyle.Flat;
+            btnPurchaseOrder.ForeColor = Color.White;
+            btnPurchaseOrder.Location = new Point(0, 508);
+            btnPurchaseOrder.Name = "btnPurchaseOrder";
+            btnPurchaseOrder.Size = new Size(227, 45);
+            btnPurchaseOrder.TabIndex = 5;
+            btnPurchaseOrder.Text = "Purchase Order";
+            btnPurchaseOrder.UseVisualStyleBackColor = true;
+            btnPurchaseOrder.Click += btnPurchaseOrder_Click;
+            // 
+            // btnQuotations
+            // 
+            btnQuotations.FlatAppearance.BorderSize = 0;
+            btnQuotations.FlatStyle = FlatStyle.Flat;
+            btnQuotations.ForeColor = Color.White;
+            btnQuotations.Location = new Point(0, 458);
+            btnQuotations.Name = "btnQuotations";
+            btnQuotations.Size = new Size(227, 45);
+            btnQuotations.TabIndex = 4;
+            btnQuotations.Text = "Quotations";
+            btnQuotations.UseVisualStyleBackColor = true;
+            btnQuotations.Click += btnQuotations_Click;
+            // 
+            // btnPurchaseRequest
+            // 
+            btnPurchaseRequest.FlatAppearance.BorderSize = 0;
+            btnPurchaseRequest.FlatStyle = FlatStyle.Flat;
+            btnPurchaseRequest.ForeColor = Color.White;
+            btnPurchaseRequest.Location = new Point(3, 408);
+            btnPurchaseRequest.Name = "btnPurchaseRequest";
+            btnPurchaseRequest.Size = new Size(227, 45);
+            btnPurchaseRequest.TabIndex = 3;
+            btnPurchaseRequest.Text = "Purchase Request";
+            btnPurchaseRequest.UseVisualStyleBackColor = true;
+            btnPurchaseRequest.Click += btnPurchaseRequest_Click;
+            // 
+            // btnSuppliers
+            // 
+            btnSuppliers.BackColor = Color.Teal;
+            btnSuppliers.FlatAppearance.BorderSize = 0;
+            btnSuppliers.FlatStyle = FlatStyle.Flat;
+            btnSuppliers.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnSuppliers.ForeColor = Color.White;
+            btnSuppliers.Location = new Point(0, 358);
+            btnSuppliers.Name = "btnSuppliers";
+            btnSuppliers.Size = new Size(227, 45);
+            btnSuppliers.TabIndex = 2;
+            btnSuppliers.Text = "Suppliers";
+            btnSuppliers.UseVisualStyleBackColor = false;
+            btnSuppliers.Click += btnSuppliers_Click;
+            // 
+            // btnDashboard
+            // 
+            btnDashboard.FlatAppearance.BorderSize = 0;
+            btnDashboard.FlatStyle = FlatStyle.Flat;
+            btnDashboard.ForeColor = Color.White;
+            btnDashboard.Location = new Point(0, 308);
+            btnDashboard.Name = "btnDashboard";
+            btnDashboard.Size = new Size(227, 45);
+            btnDashboard.TabIndex = 1;
+            btnDashboard.Text = "Dashboard";
+            btnDashboard.UseVisualStyleBackColor = true;
+            btnDashboard.Click += btnDashboard_Click;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 22.2F, FontStyle.Bold);
+            label7.ForeColor = Color.White;
+            label7.Location = new Point(30, 135);
+            label7.Name = "label7";
+            label7.Size = new Size(170, 50);
+            label7.TabIndex = 0;
+            label7.Text = "Sandrias";
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.White;
+            panel2.Controls.Add(label9);
+            panel2.ForeColor = SystemColors.ControlLightLight;
+            panel2.Location = new Point(227, 1);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(755, 58);
+            panel2.TabIndex = 13;
             // 
             // label9
             // 
