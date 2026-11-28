@@ -5,6 +5,7 @@ using SandriasDeliciousConcept.Contracts;
 using SandriasDeliciousConcept.Requisition;
 using SandriasDeliciousConcept.Delivery;
 using SandriasDeliciousConcept.Purchasing;
+using SandriasDeliciousConcept.Inventory;
 
 namespace SandriasDeliciousConcept.UI;
 
@@ -90,11 +91,26 @@ public partial class MainMenuForm : Form
 
     private void btnInventory_Click(object? sender, EventArgs e)
     {
-        MessageBox.Show(
-            "The Inventory module is not connected yet.",
-            "Inventory",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Information);
+        try
+        {
+            // Temporary: the app currently opens without login, so _user is null
+            var user = _user ?? new CurrentUser("test", "Test User", "Owner");
+
+            using var form = new InventoryForm(
+                new InventoryService(),
+                _services.Requisition,
+                user);
+
+            form.ShowDialog(this);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                "Unable to open the Inventory module.\n\n" + ex.Message,
+                "Inventory Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
     }
 
     // ==========================================
