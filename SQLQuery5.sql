@@ -1,0 +1,2 @@
+﻿SELECT DISTINCT Status
+FROM dbo.RF;

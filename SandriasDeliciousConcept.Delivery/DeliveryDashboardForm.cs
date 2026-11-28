@@ -1,18 +1,19 @@
-﻿
-using System;
+﻿using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 
 namespace SandriasDeliciousConcept.Delivery
 {
     public partial class DeliveryDashboardForm : Form
     {
         private readonly DeliveryService _deliveryService;
+        private Form? _activeChildForm;
         private bool _isClearingSearch;
 
-        private Panel? _navigationHost;
-        private Form? _activeChildForm;
+        private readonly Color NormalNavigationColor = Color.DarkSlateGray;
+        private readonly Color SelectedNavigationColor = Color.Teal;
 
         public DeliveryDashboardForm()
         {
@@ -20,143 +21,89 @@ namespace SandriasDeliciousConcept.Delivery
 
             _deliveryService = new DeliveryService();
 
-            ConfigureDeliveryGrid();
-            InitializeNavigationHost();
-
-            // Dashboard buttons
-            btnRefresh.Click += btnRefresh_Click;
-            btnSchedule.Click += btnSchedule_Click;
-            btnUpdateStatus.Click += btnUpdateStatus_Click;
-
-            // Search
-            txtSearch.TextChanged += txtSearch_TextChanged;
-
-            // Sidebar navigation
-            btnDashboard.Click += btnDashboard_Click;
-            btnPersonnel.Click += btnPersonnel_Click;
-            btnApprovedRequests.Click += btnApprovedRequests_Click;
-            btnDeliverySchedule.Click += btnDeliverySchedule_Click;
-            btnDeliveryRecords.Click += btnDeliveryRecords_Click;
-            btnDeliveryHistory.Click += btnDeliveryHistory_Click;
-
-            mainPanel.Resize += mainPanel_Resize;
-
-            LoadDeliveries();
+            Load += DeliveryDashboardForm_Load;
+            FormClosed += DeliveryDashboardForm_FormClosed;
+            dgvDeliveries.SelectionChanged += DgvDeliveries_SelectionChanged;
         }
 
-        // ==========================================
-        // NAVIGATION HOST
-        // ==========================================
-
-        private void InitializeNavigationHost()
+        private void DeliveryDashboardForm_Load(object? sender, EventArgs e)
         {
-            _navigationHost = new Panel
+            ConfigureGrid();
+            ShowDashboard();
+        }
+
+        private void DeliveryDashboardForm_FormClosed(
+            object? sender,
+            FormClosedEventArgs e)
+        {
+            CloseActiveChildForm();
+        }
+
+        private void DgvDeliveries_SelectionChanged(object? sender, EventArgs e)
+        {
+            UpdateRowActionButtons();
+        }
+
+        private void UpdateRowActionButtons()
+        {
+            bool hasSelection =
+                dgvDeliveries.CurrentRow != null &&
+                dgvDeliveries.SelectedRows.Count > 0;
+
+            btnUpdateStatus.Enabled = hasSelection;
+        }
+
+        private void ConfigureGrid()
+        {
+            dgvDeliveries.ReadOnly = true;
+            dgvDeliveries.AllowUserToAddRows = false;
+            dgvDeliveries.AllowUserToDeleteRows = false;
+            dgvDeliveries.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDeliveries.MultiSelect = false;
+
+            // Use AllCells + Both scrollbars so wide 15-column tables never truncate headers
+            dgvDeliveries.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvDeliveries.ScrollBars = ScrollBars.Both;
+        }
+
+        private void SetActiveNavigationButton(Button selectedButton)
+        {
+            Button[] navigationButtons =
             {
-                Name = "navigationHost",
-                BackColor = Color.White,
-                Visible = false
+                btnDashboard,
+                btnPersonnel,
+                btnApprovedRequests,
+                btnDeliverySchedule,
+                btnDeliveryRecords,
+                btnDeliveryHistory
             };
 
-            mainPanel.Controls.Add(_navigationHost);
-
-            LayoutNavigationHost();
-
-            _navigationHost.BringToFront();
-
-            headerPanel.BringToFront();
-            sidebarPanel.BringToFront();
-        }
-
-        private void LayoutNavigationHost()
-        {
-            if (_navigationHost == null)
-                return;
-
-            int top = headerPanel.Bottom;
-
-            _navigationHost.Location = new Point(0, top);
-
-            _navigationHost.Size = new Size(
-                mainPanel.ClientSize.Width,
-                Math.Max(0, mainPanel.ClientSize.Height - top));
-        }
-
-        private void mainPanel_Resize(object? sender, EventArgs e)
-        {
-            LayoutNavigationHost();
-        }
-
-        // ==========================================
-        // OPEN CHILD FORM
-        // ==========================================
-
-        private void OpenChildForm(Form childForm)
-        {
-            if (_navigationHost == null)
-                return;
-
-            CloseActiveChildForm();
-
-            // Hide the dashboard content
-            summaryPanel.Visible = false;
-            toolbarPanel.Visible = false;
-            contentPanel.Visible = false;
-
-            _navigationHost.Controls.Clear();
-            _navigationHost.Visible = true;
-
-            childForm.TopLevel = false;
-            childForm.FormBorderStyle = FormBorderStyle.None;
-            childForm.Dock = DockStyle.Fill;
-
-            _navigationHost.Controls.Add(childForm);
-
-            _activeChildForm = childForm;
-
-            childForm.Show();
-            childForm.BringToFront();
-
-            _navigationHost.BringToFront();
-            headerPanel.BringToFront();
-            sidebarPanel.BringToFront();
-        }
-
-        // ==========================================
-        // CLOSE ACTIVE CHILD FORM
-        // ==========================================
-
-        private void CloseActiveChildForm()
-        {
-            if (_activeChildForm != null)
+            foreach (Button button in navigationButtons)
             {
-                _navigationHost?.Controls.Remove(_activeChildForm);
-
-                _activeChildForm.Close();
-                _activeChildForm.Dispose();
-
-                _activeChildForm = null;
+                button.BackColor = NormalNavigationColor;
+                button.ForeColor = Color.White;
             }
 
-            _navigationHost?.Controls.Clear();
+            selectedButton.BackColor = SelectedNavigationColor;
+            selectedButton.ForeColor = Color.White;
         }
 
-        // ==========================================
-        // SHOW DASHBOARD
-        // ==========================================
+        // =========================================================
+        // DASHBOARD
+        // =========================================================
 
         private void ShowDashboard()
         {
             CloseActiveChildForm();
 
-            if (_navigationHost != null)
-                _navigationHost.Visible = false;
+            navigationHost.Visible = false;
 
+            headerPanel.Visible = true;
             summaryPanel.Visible = true;
             toolbarPanel.Visible = true;
             contentPanel.Visible = true;
 
-            headerPanel.BringToFront();
-            sidebarPanel.BringToFront();
+            SetActiveNavigationButton(btnDashboard);
 
             _isClearingSearch = true;
             txtSearch.Clear();
@@ -165,76 +112,13 @@ namespace SandriasDeliciousConcept.Delivery
             LoadDeliveries();
         }
 
-        // ==========================================
-        // CONFIGURE DELIVERY GRID
-        // ==========================================
-
-        private void ConfigureDeliveryGrid()
-        {
-            dgvDeliveries.AutoGenerateColumns = true;
-            dgvDeliveries.ReadOnly = true;
-            dgvDeliveries.AllowUserToAddRows = false;
-            dgvDeliveries.AllowUserToDeleteRows = false;
-            dgvDeliveries.AllowUserToResizeRows = false;
-
-            dgvDeliveries.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-
-            dgvDeliveries.MultiSelect = false;
-            dgvDeliveries.RowHeadersVisible = false;
-
-            dgvDeliveries.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.Fill;
-
-            dgvDeliveries.BackgroundColor = Color.White;
-            dgvDeliveries.BorderStyle = BorderStyle.None;
-
-            dgvDeliveries.CellBorderStyle =
-                DataGridViewCellBorderStyle.SingleHorizontal;
-
-            dgvDeliveries.EnableHeadersVisualStyles = false;
-
-            dgvDeliveries.ColumnHeadersDefaultCellStyle.BackColor =
-                Color.FromArgb(43, 91, 92);
-
-            dgvDeliveries.ColumnHeadersDefaultCellStyle.ForeColor =
-                Color.White;
-
-            dgvDeliveries.ColumnHeadersDefaultCellStyle.Font =
-                new Font("Segoe UI", 9F, FontStyle.Bold);
-
-            dgvDeliveries.ColumnHeadersHeight = 40;
-
-            dgvDeliveries.DefaultCellStyle.Font =
-                new Font("Segoe UI", 9F);
-
-            dgvDeliveries.DefaultCellStyle.SelectionBackColor =
-                Color.FromArgb(215, 235, 232);
-
-            dgvDeliveries.DefaultCellStyle.SelectionForeColor =
-                Color.Black;
-
-            dgvDeliveries.AlternatingRowsDefaultCellStyle.BackColor =
-                Color.FromArgb(245, 249, 248);
-
-            dgvDeliveries.RowTemplate.Height = 35;
-        }
-
-        // ==========================================
-        // LOAD ALL DELIVERIES
-        // ==========================================
-
         private void LoadDeliveries()
         {
             try
             {
-                DataTable deliveries =
-                    _deliveryService.GetAllDeliveries();
+                DataTable deliveries = _deliveryService.GetAllDeliveries();
 
-                dgvDeliveries.DataSource = deliveries;
-
-                UpdateSummary(deliveries);
-                FormatGridColumns();
+                DisplayDeliveries(deliveries);
             }
             catch (Exception ex)
             {
@@ -246,9 +130,14 @@ namespace SandriasDeliciousConcept.Delivery
             }
         }
 
-        // ==========================================
-        // FORMAT GRID COLUMNS
-        // ==========================================
+        private void DisplayDeliveries(DataTable deliveries)
+        {
+            dgvDeliveries.DataSource = deliveries;
+
+            FormatGridColumns();
+            UpdateSummary(deliveries);
+            UpdateRowActionButtons();
+        }
 
         private void FormatGridColumns()
         {
@@ -257,50 +146,44 @@ namespace SandriasDeliciousConcept.Delivery
 
             SetColumnHeader("DeliveryNumber", "Delivery Number");
             SetColumnHeader("RfId", "Request ID");
+            SetColumnHeader("RfNumber", "RF Number");
+            SetColumnHeader("CustomerName", "Customer Name");
+            SetColumnHeader("EventDate", "Event Date");
+            SetColumnHeader("AssignedUserName", "Assigned Personnel");
+            SetColumnHeader("PersonnelRole", "Personnel Role");
             SetColumnHeader("ScheduledDate", "Scheduled Date");
             SetColumnHeader("ActualDeliveryDate", "Actual Delivery");
             SetColumnHeader("DeliveryAddress", "Delivery Address");
 
+            SetColumnFormat("EventDate", "MMM dd, yyyy");
             SetColumnFormat("ScheduledDate", "MMM dd, yyyy");
             SetColumnFormat("ActualDeliveryDate", "MMM dd, yyyy");
         }
 
-        private void SetColumnVisibility(
-            string columnName,
-            bool visible)
+        private void SetColumnVisibility(string columnName, bool visible)
         {
-            DataGridViewColumn? column =
-                dgvDeliveries.Columns[columnName];
-
-            if (column != null)
-                column.Visible = visible;
+            if (dgvDeliveries.Columns.Contains(columnName))
+            {
+                dgvDeliveries.Columns[columnName].Visible = visible;
+            }
         }
 
-        private void SetColumnHeader(
-            string columnName,
-            string header)
+        private void SetColumnHeader(string columnName, string header)
         {
-            DataGridViewColumn? column =
-                dgvDeliveries.Columns[columnName];
-
-            if (column != null)
-                column.HeaderText = header;
+            if (dgvDeliveries.Columns.Contains(columnName))
+            {
+                dgvDeliveries.Columns[columnName].HeaderText = header;
+            }
         }
 
-        private void SetColumnFormat(
-            string columnName,
-            string format)
+        private void SetColumnFormat(string columnName, string format)
         {
-            DataGridViewColumn? column =
-                dgvDeliveries.Columns[columnName];
-
-            if (column != null)
-                column.DefaultCellStyle.Format = format;
+            if (dgvDeliveries.Columns.Contains(columnName))
+            {
+                dgvDeliveries.Columns[columnName]
+                    .DefaultCellStyle.Format = format;
+            }
         }
-
-        // ==========================================
-        // UPDATE SUMMARY CARDS
-        // ==========================================
 
         private void UpdateSummary(DataTable deliveries)
         {
@@ -311,13 +194,10 @@ namespace SandriasDeliciousConcept.Delivery
 
             foreach (DataRow row in deliveries.Rows)
             {
-                string status = "";
+                if (!deliveries.Columns.Contains("Status"))
+                    continue;
 
-                if (deliveries.Columns.Contains("Status") &&
-                    row["Status"] != DBNull.Value)
-                {
-                    status = row["Status"].ToString() ?? "";
-                }
+                string status = Convert.ToString(row["Status"]) ?? "";
 
                 switch (status.Trim())
                 {
@@ -345,17 +225,12 @@ namespace SandriasDeliciousConcept.Delivery
             lblDelivered.Text = deliveredCount.ToString("00");
         }
 
-        // ==========================================
-        // SEARCH DELIVERIES
-        // ==========================================
+        // =========================================================
+        // SEARCH AND REFRESH
+        // =========================================================
 
-        private void txtSearch_TextChanged(
-            object? sender,
-            EventArgs e)
+        private void PerformSearch()
         {
-            if (_isClearingSearch)
-                return;
-
             string searchText = txtSearch.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(searchText))
@@ -369,28 +244,32 @@ namespace SandriasDeliciousConcept.Delivery
                 DataTable results =
                     _deliveryService.SearchDeliveries(searchText);
 
-                dgvDeliveries.DataSource = results;
-
-                UpdateSummary(results);
-                FormatGridColumns();
+                DisplayDeliveries(results);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
                     "Unable to search delivery records.\n\n" + ex.Message,
-                    "Search Deliveries",
+                    "Search Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
 
-        // ==========================================
-        // REFRESH BUTTON
-        // ==========================================
+        private void txtSearch_TextChanged(object? sender, EventArgs e)
+        {
+            if (_isClearingSearch)
+                return;
 
-        private void btnRefresh_Click(
-            object? sender,
-            EventArgs e)
+            PerformSearch();
+        }
+
+        private void btnSearch_Click(object? sender, EventArgs e)
+        {
+            PerformSearch();
+        }
+
+        private void btnRefresh_Click(object? sender, EventArgs e)
         {
             _isClearingSearch = true;
             txtSearch.Clear();
@@ -399,34 +278,109 @@ namespace SandriasDeliciousConcept.Delivery
             LoadDeliveries();
         }
 
-        // ==========================================
-        // SCHEDULE DELIVERY BUTTON
-        // ==========================================
+        // =========================================================
+        // NAVIGATION
+        // =========================================================
 
-        private void btnSchedule_Click(
-            object? sender,
-            EventArgs e)
+        private void OpenChildForm(Form childForm, Button navButton)
         {
-            MessageBox.Show(
-                "The Schedule Delivery form will be connected next.",
-                "Schedule Delivery",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            CloseActiveChildForm();
+
+            headerPanel.Visible = false;
+            summaryPanel.Visible = false;
+            toolbarPanel.Visible = false;
+            contentPanel.Visible = false;
+
+            navigationHost.Controls.Clear();
+            navigationHost.Visible = true;
+
+            childForm.TopLevel = false;
+            childForm.FormBorderStyle = FormBorderStyle.None;
+            childForm.Dock = DockStyle.Fill;
+
+            navigationHost.Controls.Add(childForm);
+
+            _activeChildForm = childForm;
+
+            childForm.Show();
+
+            navigationHost.BringToFront();
+
+            SetActiveNavigationButton(navButton);
         }
 
-        // ==========================================
-        // UPDATE STATUS BUTTON
-        // ==========================================
-
-        private void btnUpdateStatus_Click(
-            object? sender,
-            EventArgs e)
+        private void CloseActiveChildForm()
         {
-            if (dgvDeliveries.CurrentRow == null ||
-                dgvDeliveries.CurrentRow.IsNewRow)
+            if (_activeChildForm == null)
+                return;
+
+            Form childForm = _activeChildForm;
+            _activeChildForm = null;
+
+            navigationHost.Controls.Remove(childForm);
+
+            childForm.Close();
+            childForm.Dispose();
+
+            navigationHost.Controls.Clear();
+        }
+
+        private void btnDashboard_Click(object? sender, EventArgs e)
+        {
+            ShowDashboard();
+        }
+
+        private void btnPersonnel_Click(object? sender, EventArgs e)
+        {
+            OpenChildForm(new DeliveryPersonnelForm(), btnPersonnel);
+        }
+
+        private void btnApprovedRequests_Click(object? sender, EventArgs e)
+        {
+            OpenChildForm(new ApprovedRequestsForm(), btnApprovedRequests);
+        }
+
+        private void btnDeliverySchedule_Click(object? sender, EventArgs e)
+        {
+            OpenChildForm(new DeliveryScheduleForm(), btnDeliverySchedule);
+        }
+
+        private void btnDeliveryRecords_Click(object? sender, EventArgs e)
+        {
+            OpenChildForm(new DeliveryRecordsForm(), btnDeliveryRecords);
+        }
+
+        private void btnDeliveryHistory_Click(object? sender, EventArgs e)
+        {
+            OpenChildForm(new DeliveryHistoryForm(), btnDeliveryHistory);
+        }
+
+        // =========================================================
+        // DELIVERY ACTIONS
+        // =========================================================
+
+        private void btnSchedule_Click(object? sender, EventArgs e)
+        {
+            OpenChildForm(new DeliveryScheduleForm(), btnDeliverySchedule);
+        }
+
+        private void btnUpdateStatus_Click(object? sender, EventArgs e)
+        {
+            if (dgvDeliveries.CurrentRow == null)
             {
                 MessageBox.Show(
                     "Please select a delivery record first.",
+                    "Update Delivery Status",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            if (!dgvDeliveries.Columns.Contains("DeliveryId"))
+            {
+                MessageBox.Show(
+                    "The selected delivery record does not contain a Delivery ID.",
                     "Update Delivery Status",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
@@ -434,70 +388,105 @@ namespace SandriasDeliciousConcept.Delivery
                 return;
             }
 
-            MessageBox.Show(
-                "The Update Delivery Status form will be connected next.",
+            object? idValue =
+                dgvDeliveries.CurrentRow.Cells["DeliveryId"].Value;
+
+            if (idValue == null ||
+                idValue == DBNull.Value ||
+                !int.TryParse(idValue.ToString(), out int deliveryId))
+            {
+                MessageBox.Show(
+                    "Unable to identify the selected delivery.",
+                    "Update Delivery Status",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            string newStatus = Interaction.InputBox(
+                "Enter the new delivery status:\n\n" +
+                "Scheduled\n" +
+                "Preparing\n" +
+                "Out for Delivery\n" +
+                "Delivered\n" +
+                "Cancelled",
                 "Update Delivery Status",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
-        }
+                "");
 
-        // ==========================================
-        // SIDEBAR NAVIGATION
-        // ==========================================
+            newStatus = newStatus.Trim();
 
-        private void btnDashboard_Click(
-            object? sender,
-            EventArgs e)
-        {
-            ShowDashboard();
-        }
+            if (string.IsNullOrWhiteSpace(newStatus))
+                return;
 
-        private void btnPersonnel_Click(
-            object? sender,
-            EventArgs e)
-        {
-            OpenChildForm(new DeliveryPersonnelForm());
-        }
+            string[] validStatuses =
+            {
+                "Scheduled",
+                "Preparing",
+                "Out for Delivery",
+                "Delivered",
+                "Cancelled"
+            };
 
-        private void btnApprovedRequests_Click(
-            object? sender,
-            EventArgs e)
-        {
-            ShowNavigationMessage("Approved Requests");
-        }
+            bool validStatus = false;
 
-        private void btnDeliverySchedule_Click(
-            object? sender,
-            EventArgs e)
-        {
-            ShowNavigationMessage("Delivery Schedule");
-        }
+            foreach (string status in validStatuses)
+            {
+                if (string.Equals(
+                    status,
+                    newStatus,
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    newStatus = status;
+                    validStatus = true;
+                    break;
+                }
+            }
 
-        private void btnDeliveryRecords_Click(
-            object? sender,
-            EventArgs e)
-        {
-            ShowNavigationMessage("Delivery Records");
-        }
+            if (!validStatus)
+            {
+                MessageBox.Show(
+                    "Invalid status. Please enter one of the listed statuses.",
+                    "Invalid Status",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
-        private void btnDeliveryHistory_Click(
-            object? sender,
-            EventArgs e)
-        {
-            ShowNavigationMessage("Delivery History");
-        }
+                return;
+            }
 
-        // ==========================================
-        // NAVIGATION MESSAGE
-        // ==========================================
+            DialogResult confirmation = MessageBox.Show(
+                "Update the selected delivery to '" + newStatus + "'?",
+                "Confirm Status Update",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
-        private void ShowNavigationMessage(string screenName)
-        {
-            MessageBox.Show(
-                screenName + " screen will be connected next.",
-                "Delivery Management",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            if (confirmation != DialogResult.Yes)
+                return;
+
+            try
+            {
+                _deliveryService.UpdateDeliveryStatus(
+                    deliveryId,
+                    newStatus,
+                    null,
+                    "Status updated from Delivery Dashboard.");
+
+                MessageBox.Show(
+                    "Delivery status updated successfully.",
+                    "Delivery Dashboard",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                LoadDeliveries();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Unable to update delivery status.\n\n" + ex.Message,
+                    "Update Status Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -1,21 +1,12 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SandriasDeliciousConcept.Purchasing
 {
     partial class PurchasingDashboard : Form
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -27,10 +18,6 @@ namespace SandriasDeliciousConcept.Purchasing
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             panel1 = new Panel();
@@ -50,9 +37,12 @@ namespace SandriasDeliciousConcept.Purchasing
             label16 = new Label();
             dgvRecentActivities = new DataGridView();
             label15 = new Label();
+            dgvInventoryOverview = new DataGridView();
+            label9 = new Label();
+            tlpDashboardCards = new TableLayoutPanel();
             pnlInventoryShortages = new Panel();
-            label6 = new Label();
             label11 = new Label();
+            label6 = new Label();
             pnlPendingRequisitions = new Panel();
             label10 = new Label();
             label5 = new Label();
@@ -62,19 +52,18 @@ namespace SandriasDeliciousConcept.Purchasing
             pnlAwaitingDeliveries = new Panel();
             label13 = new Label();
             label8 = new Label();
-            label9 = new Label();
-            dgvInventoryOverview = new DataGridView();
             label14 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvRequisitionMonitoring).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvRecentActivities).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvInventoryOverview).BeginInit();
+            tlpDashboardCards.SuspendLayout();
             pnlInventoryShortages.SuspendLayout();
             pnlPendingRequisitions.SuspendLayout();
             pnlActivePO.SuspendLayout();
             pnlAwaitingDeliveries.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvInventoryOverview).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -90,7 +79,6 @@ namespace SandriasDeliciousConcept.Purchasing
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
             panel1.Size = new Size(230, 996);
             panel1.TabIndex = 0;
@@ -99,12 +87,11 @@ namespace SandriasDeliciousConcept.Purchasing
             // 
             btnPurchaseHistory.FlatAppearance.BorderSize = 0;
             btnPurchaseHistory.FlatStyle = FlatStyle.Flat;
-            btnPurchaseHistory.Font = new System.Drawing.Font("Segoe UI", 10F);
+            btnPurchaseHistory.Font = new Font("Segoe UI", 10F);
             btnPurchaseHistory.ForeColor = Color.White;
-            btnPurchaseHistory.Location = new Point(0, 559);
-            btnPurchaseHistory.Margin = new Padding(3, 2, 3, 2);
+            btnPurchaseHistory.Location = new Point(0, 470);
             btnPurchaseHistory.Name = "btnPurchaseHistory";
-            btnPurchaseHistory.Size = new Size(227, 45);
+            btnPurchaseHistory.Size = new Size(230, 45);
             btnPurchaseHistory.TabIndex = 7;
             btnPurchaseHistory.Text = "Purchase History";
             btnPurchaseHistory.UseVisualStyleBackColor = true;
@@ -114,12 +101,11 @@ namespace SandriasDeliciousConcept.Purchasing
             // 
             btnPurchaseOrders.FlatAppearance.BorderSize = 0;
             btnPurchaseOrders.FlatStyle = FlatStyle.Flat;
-            btnPurchaseOrders.Font = new System.Drawing.Font("Segoe UI", 10F);
+            btnPurchaseOrders.Font = new Font("Segoe UI", 10F);
             btnPurchaseOrders.ForeColor = Color.White;
-            btnPurchaseOrders.Location = new Point(0, 508);
-            btnPurchaseOrders.Margin = new Padding(3, 2, 3, 2);
+            btnPurchaseOrders.Location = new Point(0, 420);
             btnPurchaseOrders.Name = "btnPurchaseOrders";
-            btnPurchaseOrders.Size = new Size(227, 45);
+            btnPurchaseOrders.Size = new Size(230, 45);
             btnPurchaseOrders.TabIndex = 6;
             btnPurchaseOrders.Text = "Purchase Order";
             btnPurchaseOrders.UseVisualStyleBackColor = true;
@@ -129,12 +115,11 @@ namespace SandriasDeliciousConcept.Purchasing
             // 
             btnQuotations.FlatAppearance.BorderSize = 0;
             btnQuotations.FlatStyle = FlatStyle.Flat;
-            btnQuotations.Font = new System.Drawing.Font("Segoe UI", 10F);
+            btnQuotations.Font = new Font("Segoe UI", 10F);
             btnQuotations.ForeColor = Color.White;
-            btnQuotations.Location = new Point(0, 458);
-            btnQuotations.Margin = new Padding(3, 2, 3, 2);
+            btnQuotations.Location = new Point(0, 370);
             btnQuotations.Name = "btnQuotations";
-            btnQuotations.Size = new Size(227, 45);
+            btnQuotations.Size = new Size(230, 45);
             btnQuotations.TabIndex = 5;
             btnQuotations.Text = "Quotations";
             btnQuotations.UseVisualStyleBackColor = true;
@@ -144,12 +129,11 @@ namespace SandriasDeliciousConcept.Purchasing
             // 
             btnPurchaseRequests.FlatAppearance.BorderSize = 0;
             btnPurchaseRequests.FlatStyle = FlatStyle.Flat;
-            btnPurchaseRequests.Font = new System.Drawing.Font("Segoe UI", 10F);
+            btnPurchaseRequests.Font = new Font("Segoe UI", 10F);
             btnPurchaseRequests.ForeColor = Color.White;
-            btnPurchaseRequests.Location = new Point(3, 408);
-            btnPurchaseRequests.Margin = new Padding(3, 2, 3, 2);
+            btnPurchaseRequests.Location = new Point(0, 320);
             btnPurchaseRequests.Name = "btnPurchaseRequests";
-            btnPurchaseRequests.Size = new Size(227, 45);
+            btnPurchaseRequests.Size = new Size(230, 45);
             btnPurchaseRequests.TabIndex = 4;
             btnPurchaseRequests.Text = "Purchase Request";
             btnPurchaseRequests.UseVisualStyleBackColor = true;
@@ -159,12 +143,11 @@ namespace SandriasDeliciousConcept.Purchasing
             // 
             btnSuppliers.FlatAppearance.BorderSize = 0;
             btnSuppliers.FlatStyle = FlatStyle.Flat;
-            btnSuppliers.Font = new System.Drawing.Font("Segoe UI", 10F);
+            btnSuppliers.Font = new Font("Segoe UI", 10F);
             btnSuppliers.ForeColor = Color.White;
-            btnSuppliers.Location = new Point(0, 358);
-            btnSuppliers.Margin = new Padding(3, 2, 3, 2);
+            btnSuppliers.Location = new Point(0, 270);
             btnSuppliers.Name = "btnSuppliers";
-            btnSuppliers.Size = new Size(227, 45);
+            btnSuppliers.Size = new Size(230, 45);
             btnSuppliers.TabIndex = 3;
             btnSuppliers.Text = "Suppliers";
             btnSuppliers.UseVisualStyleBackColor = true;
@@ -172,17 +155,14 @@ namespace SandriasDeliciousConcept.Purchasing
             // 
             // btnDashboard
             // 
-            btnDashboard.BackColor = Color.Teal;
-            btnDashboard.BackgroundImageLayout = ImageLayout.None;
-            btnDashboard.FlatAppearance.BorderColor = Color.DarkSlateGray;
+            btnDashboard.BackColor = Color.DarkSlateGray;
             btnDashboard.FlatAppearance.BorderSize = 0;
             btnDashboard.FlatStyle = FlatStyle.Flat;
-            btnDashboard.Font = new System.Drawing.Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDashboard.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnDashboard.ForeColor = Color.White;
-            btnDashboard.Location = new Point(0, 308);
-            btnDashboard.Margin = new Padding(3, 2, 3, 2);
+            btnDashboard.Location = new Point(0, 220);
             btnDashboard.Name = "btnDashboard";
-            btnDashboard.Size = new Size(227, 45);
+            btnDashboard.Size = new Size(230, 45);
             btnDashboard.TabIndex = 2;
             btnDashboard.Text = "Dashboard";
             btnDashboard.UseVisualStyleBackColor = false;
@@ -191,8 +171,8 @@ namespace SandriasDeliciousConcept.Purchasing
             // label2
             // 
             label2.AutoSize = true;
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(50, 198);
+            label2.ForeColor = Color.Gainsboro;
+            label2.Location = new Point(48, 132);
             label2.Name = "label2";
             label2.Size = new Size(129, 20);
             label2.TabIndex = 1;
@@ -202,9 +182,9 @@ namespace SandriasDeliciousConcept.Purchasing
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new System.Drawing.Font("Segoe UI", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(30, 135);
+            label1.Location = new Point(30, 80);
             label1.Name = "label1";
             label1.Size = new Size(170, 50);
             label1.TabIndex = 0;
@@ -217,7 +197,6 @@ namespace SandriasDeliciousConcept.Purchasing
             panel2.Controls.Add(label3);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(230, 0);
-            panel2.Margin = new Padding(3, 2, 3, 2);
             panel2.Name = "panel2";
             panel2.Size = new Size(1337, 75);
             panel2.TabIndex = 1;
@@ -226,7 +205,7 @@ namespace SandriasDeliciousConcept.Purchasing
             // 
             label4.AutoSize = true;
             label4.ForeColor = Color.DimGray;
-            label4.Location = new Point(15, 49);
+            label4.Location = new Point(22, 49);
             label4.Name = "label4";
             label4.Size = new Size(388, 20);
             label4.TabIndex = 1;
@@ -235,9 +214,9 @@ namespace SandriasDeliciousConcept.Purchasing
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new System.Drawing.Font("Segoe UI", 19.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Segoe UI", 19.8F, FontStyle.Bold);
             label3.ForeColor = Color.DarkSlateGray;
-            label3.Location = new Point(6, 2);
+            label3.Location = new Point(20, 6);
             label3.Name = "label3";
             label3.Size = new Size(188, 45);
             label3.TabIndex = 0;
@@ -246,24 +225,21 @@ namespace SandriasDeliciousConcept.Purchasing
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.BackColor = Color.White;
             flowLayoutPanel1.Controls.Add(dgvRequisitionMonitoring);
             flowLayoutPanel1.Controls.Add(label16);
             flowLayoutPanel1.Controls.Add(dgvRecentActivities);
             flowLayoutPanel1.Controls.Add(label15);
-            flowLayoutPanel1.Controls.Add(pnlInventoryShortages);
-            flowLayoutPanel1.Controls.Add(pnlPendingRequisitions);
-            flowLayoutPanel1.Controls.Add(pnlActivePO);
-            flowLayoutPanel1.Controls.Add(pnlAwaitingDeliveries);
-            flowLayoutPanel1.Controls.Add(label9);
             flowLayoutPanel1.Controls.Add(dgvInventoryOverview);
+            flowLayoutPanel1.Controls.Add(label9);
+            flowLayoutPanel1.Controls.Add(tlpDashboardCards);
             flowLayoutPanel1.Controls.Add(label14);
             flowLayoutPanel1.Dock = DockStyle.Fill;
-            flowLayoutPanel1.Font = new System.Drawing.Font("Segoe UI", 15F, FontStyle.Bold);
+            flowLayoutPanel1.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
             flowLayoutPanel1.ForeColor = Color.DarkSlateGray;
             flowLayoutPanel1.Location = new Point(230, 75);
-            flowLayoutPanel1.Margin = new Padding(3, 2, 3, 2);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Padding = new Padding(20, 25, 20, 25);
+            flowLayoutPanel1.Padding = new Padding(20, 15, 20, 25);
             flowLayoutPanel1.Size = new Size(1337, 921);
             flowLayoutPanel1.TabIndex = 2;
             // 
@@ -271,26 +247,31 @@ namespace SandriasDeliciousConcept.Purchasing
             // 
             dgvRequisitionMonitoring.AllowUserToAddRows = false;
             dgvRequisitionMonitoring.AllowUserToDeleteRows = false;
+            dgvRequisitionMonitoring.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dgvRequisitionMonitoring.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvRequisitionMonitoring.BackgroundColor = Color.White;
-            dgvRequisitionMonitoring.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRequisitionMonitoring.Location = new Point(23, 1096);
-            dgvRequisitionMonitoring.Margin = new Padding(3, 4, 3, 4);
+            dgvRequisitionMonitoring.ColumnHeadersHeight = 36;
+            dgvRequisitionMonitoring.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvRequisitionMonitoring.EnableHeadersVisualStyles = false;
+            dgvRequisitionMonitoring.GridColor = Color.WhiteSmoke;
+            dgvRequisitionMonitoring.Location = new Point(20, 780);
+            dgvRequisitionMonitoring.MultiSelect = false;
             dgvRequisitionMonitoring.Name = "dgvRequisitionMonitoring";
             dgvRequisitionMonitoring.ReadOnly = true;
             dgvRequisitionMonitoring.RowHeadersVisible = false;
             dgvRequisitionMonitoring.RowHeadersWidth = 51;
-            dgvRequisitionMonitoring.RowTemplate.Height = 24;
+            dgvRequisitionMonitoring.RowTemplate.Height = 32;
             dgvRequisitionMonitoring.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvRequisitionMonitoring.Size = new Size(898, 272);
+            dgvRequisitionMonitoring.Size = new Size(1297, 230);
             dgvRequisitionMonitoring.TabIndex = 11;
             // 
             // label16
             // 
             label16.AutoSize = true;
-            label16.Location = new Point(23, 1049);
+            label16.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label16.Location = new Point(20, 740);
             label16.Name = "label16";
-            label16.Size = new Size(249, 35);
+            label16.Size = new Size(243, 32);
             label16.TabIndex = 10;
             label16.Text = "Request Monitoring";
             // 
@@ -298,198 +279,241 @@ namespace SandriasDeliciousConcept.Purchasing
             // 
             dgvRecentActivities.AllowUserToAddRows = false;
             dgvRecentActivities.AllowUserToDeleteRows = false;
+            dgvRecentActivities.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dgvRecentActivities.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvRecentActivities.BackgroundColor = Color.White;
-            dgvRecentActivities.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRecentActivities.Location = new Point(18, 568);
-            dgvRecentActivities.Margin = new Padding(3, 4, 3, 4);
+            dgvRecentActivities.ColumnHeadersHeight = 36;
+            dgvRecentActivities.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvRecentActivities.EnableHeadersVisualStyles = false;
+            dgvRecentActivities.GridColor = Color.WhiteSmoke;
+            dgvRecentActivities.Location = new Point(20, 490);
+            dgvRecentActivities.MultiSelect = false;
             dgvRecentActivities.Name = "dgvRecentActivities";
             dgvRecentActivities.ReadOnly = true;
             dgvRecentActivities.RowHeadersVisible = false;
             dgvRecentActivities.RowHeadersWidth = 51;
-            dgvRecentActivities.RowTemplate.Height = 24;
+            dgvRecentActivities.RowTemplate.Height = 32;
             dgvRecentActivities.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvRecentActivities.Size = new Size(903, 235);
+            dgvRecentActivities.Size = new Size(1297, 230);
             dgvRecentActivities.TabIndex = 8;
             // 
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(17, 520);
+            label15.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label15.Location = new Point(20, 450);
             label15.Name = "label15";
-            label15.Size = new Size(328, 35);
+            label15.Size = new Size(319, 32);
             label15.TabIndex = 7;
             label15.Text = "Recent Purchasing Activity";
             // 
+            // dgvInventoryOverview
+            // 
+            dgvInventoryOverview.AllowUserToAddRows = false;
+            dgvInventoryOverview.AllowUserToDeleteRows = false;
+            dgvInventoryOverview.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dgvInventoryOverview.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvInventoryOverview.BackgroundColor = Color.White;
+            dgvInventoryOverview.ColumnHeadersHeight = 36;
+            dgvInventoryOverview.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvInventoryOverview.EnableHeadersVisualStyles = false;
+            dgvInventoryOverview.GridColor = Color.WhiteSmoke;
+            dgvInventoryOverview.Location = new Point(20, 200);
+            dgvInventoryOverview.MultiSelect = false;
+            dgvInventoryOverview.Name = "dgvInventoryOverview";
+            dgvInventoryOverview.ReadOnly = true;
+            dgvInventoryOverview.RowHeadersVisible = false;
+            dgvInventoryOverview.RowHeadersWidth = 51;
+            dgvInventoryOverview.RowTemplate.Height = 32;
+            dgvInventoryOverview.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvInventoryOverview.Size = new Size(1297, 230);
+            dgvInventoryOverview.TabIndex = 5;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label9.Location = new Point(20, 160);
+            label9.Name = "label9";
+            label9.Size = new Size(240, 32);
+            label9.TabIndex = 4;
+            label9.Text = "Inventory Overview";
+            // 
+            // tlpDashboardCards
+            // 
+            tlpDashboardCards.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            tlpDashboardCards.ColumnCount = 4;
+            tlpDashboardCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpDashboardCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpDashboardCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpDashboardCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpDashboardCards.Controls.Add(pnlInventoryShortages, 0, 0);
+            tlpDashboardCards.Controls.Add(pnlPendingRequisitions, 1, 0);
+            tlpDashboardCards.Controls.Add(pnlActivePO, 2, 0);
+            tlpDashboardCards.Controls.Add(pnlAwaitingDeliveries, 3, 0);
+            tlpDashboardCards.Location = new Point(20, 15);
+            tlpDashboardCards.Name = "tlpDashboardCards";
+            tlpDashboardCards.RowCount = 1;
+            tlpDashboardCards.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpDashboardCards.Size = new Size(1297, 125);
+            tlpDashboardCards.TabIndex = 0;
+            // 
             // pnlInventoryShortages
             // 
-            pnlInventoryShortages.BorderStyle = BorderStyle.FixedSingle;
-            pnlInventoryShortages.Controls.Add(label6);
+            pnlInventoryShortages.BackColor = Color.FromArgb(255, 244, 223);
             pnlInventoryShortages.Controls.Add(label11);
-            pnlInventoryShortages.Location = new Point(19, 28);
-            pnlInventoryShortages.Margin = new Padding(3, 2, 3, 2);
+            pnlInventoryShortages.Controls.Add(label6);
+            pnlInventoryShortages.Dock = DockStyle.Fill;
+            pnlInventoryShortages.Location = new Point(0, 0);
+            pnlInventoryShortages.Margin = new Padding(0, 0, 8, 0);
             pnlInventoryShortages.Name = "pnlInventoryShortages";
-            pnlInventoryShortages.Size = new Size(220, 130);
-            pnlInventoryShortages.TabIndex = 1;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new System.Drawing.Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(27, 9);
-            label6.Name = "label6";
-            label6.Size = new Size(172, 23);
-            label6.TabIndex = 0;
-            label6.Text = "Inventory Shortages";
+            pnlInventoryShortages.Padding = new Padding(14, 12, 14, 12);
+            pnlInventoryShortages.Size = new Size(316, 125);
+            pnlInventoryShortages.TabIndex = 0;
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Font = new System.Drawing.Font("Segoe UI", 25F, FontStyle.Bold);
-            label11.Location = new Point(72, 38);
+            label11.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
+            label11.ForeColor = Color.FromArgb(95, 65, 20);
+            label11.Location = new Point(14, 14);
             label11.Name = "label11";
-            label11.Size = new Size(73, 57);
+            label11.Size = new Size(69, 54);
             label11.TabIndex = 1;
             label11.Text = "05";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 9.5F);
+            label6.ForeColor = Color.DimGray;
+            label6.Location = new Point(16, 78);
+            label6.Name = "label6";
+            label6.Size = new Size(150, 21);
+            label6.TabIndex = 0;
+            label6.Text = "Inventory Shortages";
+            // 
             // pnlPendingRequisitions
             // 
-            pnlPendingRequisitions.BorderStyle = BorderStyle.FixedSingle;
+            pnlPendingRequisitions.BackColor = Color.FromArgb(240, 235, 248);
             pnlPendingRequisitions.Controls.Add(label10);
             pnlPendingRequisitions.Controls.Add(label5);
-            pnlPendingRequisitions.Location = new Point(245, 28);
-            pnlPendingRequisitions.Margin = new Padding(3, 2, 3, 2);
+            pnlPendingRequisitions.Dock = DockStyle.Fill;
+            pnlPendingRequisitions.Location = new Point(332, 0);
+            pnlPendingRequisitions.Margin = new Padding(8, 0, 8, 0);
             pnlPendingRequisitions.Name = "pnlPendingRequisitions";
-            pnlPendingRequisitions.Size = new Size(220, 130);
-            pnlPendingRequisitions.TabIndex = 0;
+            pnlPendingRequisitions.Padding = new Padding(14, 12, 14, 12);
+            pnlPendingRequisitions.Size = new Size(308, 125);
+            pnlPendingRequisitions.TabIndex = 1;
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Font = new System.Drawing.Font("Segoe UI", 25.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(84, 48);
+            label10.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
+            label10.ForeColor = Color.FromArgb(45, 45, 65);
+            label10.Location = new Point(14, 14);
             label10.Name = "label10";
-            label10.Size = new Size(73, 57);
+            label10.Size = new Size(69, 54);
             label10.TabIndex = 1;
             label10.Text = "08";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new System.Drawing.Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(20, 9);
+            label5.Font = new Font("Segoe UI", 9.5F);
+            label5.ForeColor = Color.DimGray;
+            label5.Location = new Point(16, 78);
             label5.Name = "label5";
-            label5.Size = new Size(177, 23);
+            label5.Size = new Size(155, 21);
             label5.TabIndex = 0;
             label5.Text = "Pending Requisitions";
             // 
             // pnlActivePO
             // 
-            pnlActivePO.BorderStyle = BorderStyle.FixedSingle;
+            pnlActivePO.BackColor = Color.FromArgb(234, 242, 248);
             pnlActivePO.Controls.Add(label12);
             pnlActivePO.Controls.Add(label7);
-            pnlActivePO.Location = new Point(471, 28);
-            pnlActivePO.Margin = new Padding(3, 2, 3, 2);
+            pnlActivePO.Dock = DockStyle.Fill;
+            pnlActivePO.Location = new Point(656, 0);
+            pnlActivePO.Margin = new Padding(8, 0, 8, 0);
             pnlActivePO.Name = "pnlActivePO";
-            pnlActivePO.Size = new Size(220, 130);
+            pnlActivePO.Padding = new Padding(14, 12, 14, 12);
+            pnlActivePO.Size = new Size(308, 125);
             pnlActivePO.TabIndex = 2;
             // 
             // label12
             // 
             label12.AutoSize = true;
-            label12.Font = new System.Drawing.Font("Segoe UI", 25F, FontStyle.Bold);
-            label12.Location = new Point(73, 52);
+            label12.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
+            label12.ForeColor = Color.FromArgb(30, 55, 80);
+            label12.Location = new Point(14, 14);
             label12.Name = "label12";
-            label12.Size = new Size(73, 57);
+            label12.Size = new Size(69, 54);
             label12.TabIndex = 1;
             label12.Text = "06";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new System.Drawing.Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(13, 9);
+            label7.Font = new Font("Segoe UI", 9.5F);
+            label7.ForeColor = Color.DimGray;
+            label7.Location = new Point(16, 78);
             label7.Name = "label7";
-            label7.Size = new Size(194, 23);
+            label7.Size = new Size(171, 21);
             label7.TabIndex = 0;
             label7.Text = "Active Purchase Orders";
             // 
             // pnlAwaitingDeliveries
             // 
-            pnlAwaitingDeliveries.BorderStyle = BorderStyle.FixedSingle;
+            pnlAwaitingDeliveries.BackColor = Color.FromArgb(232, 245, 237);
             pnlAwaitingDeliveries.Controls.Add(label13);
             pnlAwaitingDeliveries.Controls.Add(label8);
-            pnlAwaitingDeliveries.Location = new Point(697, 28);
-            pnlAwaitingDeliveries.Margin = new Padding(3, 2, 3, 2);
+            pnlAwaitingDeliveries.Dock = DockStyle.Fill;
+            pnlAwaitingDeliveries.Location = new Point(980, 0);
+            pnlAwaitingDeliveries.Margin = new Padding(8, 0, 0, 0);
             pnlAwaitingDeliveries.Name = "pnlAwaitingDeliveries";
-            pnlAwaitingDeliveries.Size = new Size(220, 130);
+            pnlAwaitingDeliveries.Padding = new Padding(14, 12, 14, 12);
+            pnlAwaitingDeliveries.Size = new Size(317, 125);
             pnlAwaitingDeliveries.TabIndex = 3;
             // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Font = new System.Drawing.Font("Segoe UI", 25F, FontStyle.Bold);
-            label13.Location = new Point(72, 52);
+            label13.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
+            label13.ForeColor = Color.FromArgb(30, 70, 50);
+            label13.Location = new Point(14, 14);
             label13.Name = "label13";
-            label13.Size = new Size(73, 57);
+            label13.Size = new Size(69, 54);
             label13.TabIndex = 1;
             label13.Text = "03";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new System.Drawing.Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(28, 9);
+            label8.Font = new Font("Segoe UI", 9.5F);
+            label8.ForeColor = Color.DimGray;
+            label8.Location = new Point(16, 78);
             label8.Name = "label8";
-            label8.Size = new Size(166, 23);
+            label8.Size = new Size(143, 21);
             label8.TabIndex = 0;
             label8.Text = "Awaiting Deliveries";
             // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new System.Drawing.Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(17, 169);
-            label9.Name = "label9";
-            label9.Size = new Size(250, 35);
-            label9.TabIndex = 4;
-            label9.Text = "Inventory Overview";
-            // 
-            // dgvInventoryOverview
-            // 
-            dgvInventoryOverview.AllowUserToAddRows = false;
-            dgvInventoryOverview.AllowUserToDeleteRows = false;
-            dgvInventoryOverview.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvInventoryOverview.BackgroundColor = Color.White;
-            dgvInventoryOverview.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvInventoryOverview.Location = new Point(18, 215);
-            dgvInventoryOverview.Margin = new Padding(3, 2, 3, 2);
-            dgvInventoryOverview.MultiSelect = false;
-            dgvInventoryOverview.Name = "dgvInventoryOverview";
-            dgvInventoryOverview.ReadOnly = true;
-            dgvInventoryOverview.RowHeadersVisible = false;
-            dgvInventoryOverview.RowHeadersWidth = 51;
-            dgvInventoryOverview.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvInventoryOverview.Size = new Size(903, 240);
-            dgvInventoryOverview.TabIndex = 5;
-            // 
             // label14
             // 
-            label14.Location = new Point(0, 0);
+            label14.Location = new Point(20, 1020);
             label14.Name = "label14";
-            label14.Size = new Size(100, 29);
+            label14.Size = new Size(100, 20);
             label14.TabIndex = 9;
             // 
             // PurchasingDashboard
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.WhiteSmoke;
+            BackColor = Color.White;
             ClientSize = new Size(1567, 996);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "PurchasingDashboard";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Purchasing Dashboard";
@@ -502,6 +526,8 @@ namespace SandriasDeliciousConcept.Purchasing
             flowLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvRequisitionMonitoring).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvRecentActivities).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvInventoryOverview).EndInit();
+            tlpDashboardCards.ResumeLayout(false);
             pnlInventoryShortages.ResumeLayout(false);
             pnlInventoryShortages.PerformLayout();
             pnlPendingRequisitions.ResumeLayout(false);
@@ -510,9 +536,7 @@ namespace SandriasDeliciousConcept.Purchasing
             pnlActivePO.PerformLayout();
             pnlAwaitingDeliveries.ResumeLayout(false);
             pnlAwaitingDeliveries.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvInventoryOverview).EndInit();
             ResumeLayout(false);
-
         }
 
         #endregion
@@ -520,6 +544,7 @@ namespace SandriasDeliciousConcept.Purchasing
         private Panel panel1;
         private Panel panel2;
         private Panel flowLayoutPanel1;
+        private TableLayoutPanel tlpDashboardCards;
         private Label label1;
         private Button btnSuppliers;
         private Button btnDashboard;

@@ -1,5 +1,4 @@
-﻿
-using SandriasDeliciousConcept.Data;
+﻿using SandriasDeliciousConcept.Data;
 using System;
 using System.Data;
 using System.Drawing;
@@ -41,13 +40,9 @@ namespace SandriasDeliciousConcept.Purchasing
 
             isDashboardMode = true;
 
-            // Hide only the duplicate Supplier sidebar.
             panel1.Visible = false;
-
-            // Keep the Supplier Form header.
             panel2.Visible = true;
 
-            // Shift the remaining controls to remove the old sidebar space.
             foreach (Control control in Controls)
             {
                 if (control == panel1)
@@ -156,6 +151,33 @@ namespace SandriasDeliciousConcept.Purchasing
             dgvSuppliers.ReadOnly = true;
         }
 
+        private static string GetColumnValue(DataRow row, string columnName)
+        {
+            return row.Table.Columns.Contains(columnName)
+                ? Convert.ToString(row[columnName]) ?? string.Empty
+                : string.Empty;
+        }
+
+        private static string GetSupplierStatus(DataRow row)
+        {
+            if (row.Table.Columns.Contains("Status"))
+                return Convert.ToString(row["Status"]) ?? "Active";
+
+            if (row.Table.Columns.Contains("SupplierStatus"))
+                return Convert.ToString(row["SupplierStatus"]) ?? "Active";
+
+            if (row.Table.Columns.Contains("IsActive"))
+            {
+                object val = row["IsActive"];
+                if (val != null && val != DBNull.Value && Convert.ToBoolean(val))
+                    return "Active";
+
+                return "Inactive";
+            }
+
+            return "Active";
+        }
+
         private void LoadSuppliers()
         {
             try
@@ -180,13 +202,13 @@ namespace SandriasDeliciousConcept.Purchasing
             foreach (DataRow supplier in suppliers.Rows)
             {
                 dgvSuppliers.Rows.Add(
-                    supplier["SupplierID"],
-                    supplier["SupplierName"],
-                    supplier["ContactPerson"],
-                    supplier["ContactNumber"],
-                    supplier["Email"],
-                    supplier["Address"],
-                    supplier["Status"]);
+                    GetColumnValue(supplier, "SupplierID"),
+                    GetColumnValue(supplier, "SupplierName"),
+                    GetColumnValue(supplier, "ContactPerson"),
+                    GetColumnValue(supplier, "ContactNumber"),
+                    GetColumnValue(supplier, "Email"),
+                    GetColumnValue(supplier, "Address"),
+                    GetSupplierStatus(supplier));
             }
         }
 
@@ -260,20 +282,11 @@ namespace SandriasDeliciousConcept.Purchasing
 
                 DataRow row = supplier.Rows[0];
 
-                txtSupplierName.Text =
-                    row["SupplierName"].ToString();
-
-                txtContactPerson.Text =
-                    row["ContactPerson"].ToString();
-
-                txtContactNumber.Text =
-                    row["ContactNumber"].ToString();
-
-                txtEmail.Text =
-                    row["Email"].ToString();
-
-                txtAddress.Text =
-                    row["Address"].ToString();
+                txtSupplierName.Text = GetColumnValue(row, "SupplierName");
+                txtContactPerson.Text = GetColumnValue(row, "ContactPerson");
+                txtContactNumber.Text = GetColumnValue(row, "ContactNumber");
+                txtEmail.Text = GetColumnValue(row, "Email");
+                txtAddress.Text = GetColumnValue(row, "Address");
 
                 SetFieldsReadOnly(true);
 
@@ -304,20 +317,11 @@ namespace SandriasDeliciousConcept.Purchasing
 
                 DataRow row = supplier.Rows[0];
 
-                txtSupplierName.Text =
-                    row["SupplierName"].ToString();
-
-                txtContactPerson.Text =
-                    row["ContactPerson"].ToString();
-
-                txtContactNumber.Text =
-                    row["ContactNumber"].ToString();
-
-                txtEmail.Text =
-                    row["Email"].ToString();
-
-                txtAddress.Text =
-                    row["Address"].ToString();
+                txtSupplierName.Text = GetColumnValue(row, "SupplierName");
+                txtContactPerson.Text = GetColumnValue(row, "ContactPerson");
+                txtContactNumber.Text = GetColumnValue(row, "ContactNumber");
+                txtEmail.Text = GetColumnValue(row, "Email");
+                txtAddress.Text = GetColumnValue(row, "Address");
 
                 SetFieldsReadOnly(false);
 
@@ -405,8 +409,7 @@ namespace SandriasDeliciousConcept.Purchasing
                     return;
                 }
 
-                string currentStatus =
-                    supplier.Rows[0]["Status"].ToString() ?? "";
+                string currentStatus = GetSupplierStatus(supplier.Rows[0]);
 
                 string newStatus = currentStatus.Equals(
                     "Active",
@@ -454,52 +457,28 @@ namespace SandriasDeliciousConcept.Purchasing
 
             string filter = cmbSearchFilter.Text;
 
-            string columnName = filter switch
-            {
-                "Supplier Name" => "SupplierName",
-                "Contact Person" => "ContactPerson",
-                "Contact Number" => "ContactNumber",
-                "Email" => "Email",
-                "Status" => "Status",
-                _ => ""
-            };
-
             DataTable filteredData = supplierData.Clone();
 
             foreach (DataRow row in supplierData.Rows)
             {
-                bool matches = false;
-
-                if (string.IsNullOrEmpty(columnName))
+                bool matches = filter switch
                 {
-                    string[] fields =
-                    {
-                        "SupplierName",
-                        "ContactPerson",
-                        "ContactNumber",
-                        "Email",
-                        "Status"
-                    };
-
-                    foreach (string field in fields)
-                    {
-                        if (row[field].ToString()!
-                            .Contains(
-                                keyword,
-                                StringComparison.OrdinalIgnoreCase))
-                        {
-                            matches = true;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    matches = row[columnName].ToString()!
-                        .Contains(
-                            keyword,
-                            StringComparison.OrdinalIgnoreCase);
-                }
+                    "Supplier Name" => GetColumnValue(row, "SupplierName")
+                        .Contains(keyword, StringComparison.OrdinalIgnoreCase),
+                    "Contact Person" => GetColumnValue(row, "ContactPerson")
+                        .Contains(keyword, StringComparison.OrdinalIgnoreCase),
+                    "Contact Number" => GetColumnValue(row, "ContactNumber")
+                        .Contains(keyword, StringComparison.OrdinalIgnoreCase),
+                    "Email" => GetColumnValue(row, "Email")
+                        .Contains(keyword, StringComparison.OrdinalIgnoreCase),
+                    "Status" => GetSupplierStatus(row)
+                        .Contains(keyword, StringComparison.OrdinalIgnoreCase),
+                    _ => GetColumnValue(row, "SupplierName").Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
+                         GetColumnValue(row, "ContactPerson").Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
+                         GetColumnValue(row, "ContactNumber").Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
+                         GetColumnValue(row, "Email").Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
+                         GetSupplierStatus(row).Contains(keyword, StringComparison.OrdinalIgnoreCase)
+                };
 
                 if (matches)
                     filteredData.ImportRow(row);
@@ -529,31 +508,11 @@ namespace SandriasDeliciousConcept.Purchasing
                 MessageBoxIcon.Information);
         }
 
-        private void cmbSearchFilter_SelectedIndexChanged(
-            object sender,
-            EventArgs e)
-        {
-        }
-        private void btnAdd_Click_1(object sender, EventArgs e)
-        {
-            btnAdd_Click(sender, e);
-        }
-
-        private void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void dgvSuppliers_CellContentClick(
-            object sender,
-            DataGridViewCellEventArgs e)
-        {
-        }
-
-        private void txtSupplierName_TextChanged(
-            object sender,
-            EventArgs e)
-        {
-        }
+        private void cmbSearchFilter_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void btnAdd_Click_1(object sender, EventArgs e) { btnAdd_Click(sender, e); }
+        private void txtSearch_TextChanged(object sender, EventArgs e) { }
+        private void dgvSuppliers_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void txtSupplierName_TextChanged(object sender, EventArgs e) { }
         private void btnSuppliers_Click(object sender, EventArgs e) { }
         private void btnDashboard_Click(object sender, EventArgs e) { }
         private void btnPurchaseRequest_Click(object sender, EventArgs e) { }

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Data;
 using System.Windows.Forms;
 
@@ -51,20 +50,17 @@ namespace SandriasDeliciousConcept.Delivery
 
             foreach (DataRow row in source.Rows)
             {
+                string userId = Convert.ToString(row["UserId"]) ?? string.Empty;
+                string fullName = Convert.ToString(row["FullName"]) ?? string.Empty;
+                string username = Convert.ToString(row["Username"]) ?? string.Empty;
+                string role = Convert.ToString(row["Role"]) ?? string.Empty;
+
                 bool matches =
                     searchText.Length == 0 ||
-                    row["UserId"].ToString()!.Contains(
-                        searchText,
-                        StringComparison.OrdinalIgnoreCase) ||
-                    row["FullName"].ToString()!.Contains(
-                        searchText,
-                        StringComparison.OrdinalIgnoreCase) ||
-                    row["Username"].ToString()!.Contains(
-                        searchText,
-                        StringComparison.OrdinalIgnoreCase) ||
-                    row["Role"].ToString()!.Contains(
-                        searchText,
-                        StringComparison.OrdinalIgnoreCase);
+                    userId.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                    fullName.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                    username.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                    role.Contains(searchText, StringComparison.OrdinalIgnoreCase);
 
                 if (matches)
                 {
@@ -87,34 +83,38 @@ namespace SandriasDeliciousConcept.Delivery
             if (dgvPersonnel.Columns.Count == 0)
                 return;
 
-            if (dgvPersonnel.Columns.Contains("UserId"))
+            dgvPersonnel.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Hide any extra columns that shouldn't appear in the personnel table
+            foreach (DataGridViewColumn col in dgvPersonnel.Columns)
             {
-                dgvPersonnel.Columns["UserId"].HeaderText = "PERSONNEL ID";
-                dgvPersonnel.Columns["UserId"].DisplayIndex = 0;
-                dgvPersonnel.Columns["UserId"].Width = 120;
+                if (col.Name != "UserId" &&
+                    col.Name != "FullName" &&
+                    col.Name != "Username" &&
+                    col.Name != "Role")
+                {
+                    col.Visible = false;
+                }
             }
 
-            if (dgvPersonnel.Columns.Contains("FullName"))
-            {
-                dgvPersonnel.Columns["FullName"].HeaderText = "FULL NAME";
-                dgvPersonnel.Columns["FullName"].DisplayIndex = 1;
-                dgvPersonnel.Columns["FullName"].AutoSizeMode =
-                    DataGridViewAutoSizeColumnMode.Fill;
-            }
+            SetColumn("UserId", "PERSONNEL ID", 0, 15f);
+            SetColumn("FullName", "FULL NAME", 1, 35f);
+            SetColumn("Username", "USERNAME", 2, 25f);
+            SetColumn("Role", "ROLE", 3, 25f);
+        }
 
-            if (dgvPersonnel.Columns.Contains("Username"))
-            {
-                dgvPersonnel.Columns["Username"].HeaderText = "USERNAME";
-                dgvPersonnel.Columns["Username"].DisplayIndex = 2;
-                dgvPersonnel.Columns["Username"].Width = 180;
-            }
+        private void SetColumn(string columnName, string headerText, int displayIndex, float fillWeight)
+        {
+            if (!dgvPersonnel.Columns.Contains(columnName))
+                return;
 
-            if (dgvPersonnel.Columns.Contains("Role"))
-            {
-                dgvPersonnel.Columns["Role"].HeaderText = "ROLE";
-                dgvPersonnel.Columns["Role"].DisplayIndex = 3;
-                dgvPersonnel.Columns["Role"].Width = 160;
-            }
+            DataGridViewColumn col = dgvPersonnel.Columns[columnName];
+            col.Visible = true;
+            col.HeaderText = headerText;
+            col.DisplayIndex = displayIndex;
+            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            col.FillWeight = fillWeight;
+            col.MinimumWidth = 100;
         }
 
         private void txtSearch_TextChanged(object? sender, EventArgs e)

@@ -40,31 +40,44 @@ namespace SandriasDeliciousConcept.Purchasing
             int width = ClientSize.Width;
             int height = ClientSize.Height;
 
-            panel1.SetBounds(0, 0, SidebarWidth, height);
+            int contentWidth = Math.Max(0, width - SidebarWidth);
+            int dashboardBodyHeight = Math.Max(0, height - HeaderHeight);
+
+            panel1.SetBounds(
+                0,
+                0,
+                SidebarWidth,
+                height);
 
             panel2.SetBounds(
                 SidebarWidth,
                 0,
-                Math.Max(0, width - SidebarWidth),
+                contentWidth,
                 HeaderHeight);
 
             flowLayoutPanel1.SetBounds(
                 SidebarWidth,
                 HeaderHeight,
-                Math.Max(0, width - SidebarWidth),
-                Math.Max(0, height - HeaderHeight));
+                contentWidth,
+                dashboardBodyHeight);
 
+            // Child forms fill from Y = 0 to the bottom of the window
             if (contentHost != null)
             {
                 contentHost.SetBounds(
                     SidebarWidth,
-                    HeaderHeight,
-                    Math.Max(0, width - SidebarWidth),
-                    Math.Max(0, height - HeaderHeight));
+                    0,
+                    contentWidth,
+                    height);
             }
 
             panel1.BringToFront();
-            panel2.BringToFront();
+
+            if (panel2.Visible)
+                panel2.BringToFront();
+
+            if (contentHost != null && contentHost.Visible)
+                contentHost.BringToFront();
         }
 
         private void PurchasingDashboard_Resize(
@@ -79,8 +92,9 @@ namespace SandriasDeliciousConcept.Purchasing
             contentHost = new Panel
             {
                 Name = "contentHost",
-                BackColor = Color.WhiteSmoke,
-                Visible = false
+                BackColor = Color.White,
+                Visible = false,
+                BorderStyle = BorderStyle.None
             };
 
             Controls.Add(contentHost);
@@ -119,8 +133,6 @@ namespace SandriasDeliciousConcept.Purchasing
 
             selectedButton.BackColor = SelectedNavigationColor;
             selectedButton.ForeColor = Color.White;
-
-            selectedButton.Invalidate();
         }
 
         private void OpenChildForm(Form childForm)
@@ -133,25 +145,27 @@ namespace SandriasDeliciousConcept.Purchasing
 
             CloseActiveChildForm();
 
+            // Hide the main Dashboard header & overview body
+            panel2.Visible = false;
             flowLayoutPanel1.Visible = false;
 
             contentHost.Controls.Clear();
             contentHost.Visible = true;
 
             LayoutDashboardAreas();
-            contentHost.BringToFront();
 
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
+            childForm.Margin = Padding.Empty;
 
             contentHost.Controls.Add(childForm);
+
             activeChildForm = childForm;
 
             childForm.Show();
-            childForm.BringToFront();
 
-            panel2.BringToFront();
+            contentHost.BringToFront();
             panel1.BringToFront();
         }
 
@@ -161,6 +175,8 @@ namespace SandriasDeliciousConcept.Purchasing
             {
                 Form oldForm = activeChildForm;
                 activeChildForm = null;
+
+                contentHost?.Controls.Remove(oldForm);
 
                 oldForm.Close();
                 oldForm.Dispose();
@@ -176,6 +192,8 @@ namespace SandriasDeliciousConcept.Purchasing
             if (contentHost != null)
                 contentHost.Visible = false;
 
+            // Restore the main Dashboard header & overview body
+            panel2.Visible = true;
             flowLayoutPanel1.Visible = true;
 
             LayoutDashboardAreas();

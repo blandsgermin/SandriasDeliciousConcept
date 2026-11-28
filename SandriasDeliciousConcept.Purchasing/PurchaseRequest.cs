@@ -25,6 +25,7 @@ namespace SandriasDeliciousConcept.Purchasing
             InitializeComponent();
 
             Load += PurchaseRequest_Load;
+            dgvPurchaseRequests.SelectionChanged += DgvPurchaseRequests_SelectionChanged;
             _printDocument.PrintPage += PrintDocument_PrintPage;
         }
 
@@ -34,10 +35,7 @@ namespace SandriasDeliciousConcept.Purchasing
 
             panel1.Visible = false;
 
-            panel2.Visible = true;
-            panel2.Dock = DockStyle.Right;
-            panel2.Width = 190;
-
+            panel3.Visible = true;
             panel3.Dock = DockStyle.Top;
             panel3.Height = 65;
 
@@ -50,6 +48,23 @@ namespace SandriasDeliciousConcept.Purchasing
         {
             ConfigureGrid();
             LoadPurchaseRequests();
+            UpdateRowActionButtons();
+        }
+
+        private void DgvPurchaseRequests_SelectionChanged(object? sender, EventArgs e)
+        {
+            UpdateRowActionButtons();
+        }
+
+        private void UpdateRowActionButtons()
+        {
+            bool hasSelection =
+                dgvPurchaseRequests.CurrentRow != null &&
+                dgvPurchaseRequests.SelectedRows.Count > 0;
+
+            btnViewDetails.Enabled = hasSelection;
+            btnEditRequest.Enabled = hasSelection;
+            btnPrintRequest.Enabled = hasSelection;
         }
 
         private void ConfigureGrid()
@@ -57,11 +72,16 @@ namespace SandriasDeliciousConcept.Purchasing
             dgvPurchaseRequests.ReadOnly = true;
             dgvPurchaseRequests.AllowUserToAddRows = false;
             dgvPurchaseRequests.AllowUserToDeleteRows = false;
-            dgvPurchaseRequests.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
+            dgvPurchaseRequests.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPurchaseRequests.MultiSelect = false;
-            dgvPurchaseRequests.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.Fill;
+            dgvPurchaseRequests.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgvPurchaseRequests.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(245, 248, 248);
+            dgvPurchaseRequests.ColumnHeadersDefaultCellStyle.ForeColor = Color.DarkSlateGray;
+            dgvPurchaseRequests.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            dgvPurchaseRequests.DefaultCellStyle.SelectionBackColor = Color.FromArgb(220, 242, 242);
+            dgvPurchaseRequests.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgvPurchaseRequests.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 252, 252);
         }
 
         private void LoadPurchaseRequests()
@@ -74,6 +94,7 @@ namespace SandriasDeliciousConcept.Purchasing
 
                 FormatGrid();
                 UpdateSummary(dt);
+                UpdateRowActionButtons();
             }
             catch (Exception ex)
             {
@@ -213,6 +234,7 @@ namespace SandriasDeliciousConcept.Purchasing
 
                 FormatGrid();
                 UpdateSummary(dt);
+                UpdateRowActionButtons();
             }
             catch (Exception ex)
             {
@@ -642,6 +664,7 @@ namespace SandriasDeliciousConcept.Purchasing
 
             return string.Empty;
         }
+
         private void btnDashboard_Click(object? sender, EventArgs e) { }
         private void btnSuppliers_Click(object? sender, EventArgs e) { }
 
@@ -649,6 +672,7 @@ namespace SandriasDeliciousConcept.Purchasing
         {
             LoadPurchaseRequests();
         }
+
         private void button4_Click(object? sender, EventArgs e) { }
         private void btnPurchaseOrder_Click(object? sender, EventArgs e) { }
         private void btnPurchaseHIstory_Click(object? sender, EventArgs e) { }

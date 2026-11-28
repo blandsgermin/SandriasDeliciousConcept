@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SandriasDeliciousConcept.Purchasing
@@ -8,19 +9,61 @@ namespace SandriasDeliciousConcept.Purchasing
         public QuotationsForm()
         {
             InitializeComponent();
+
+            Load += QuotationsForm_Load;
+            dgvQuotations.SelectionChanged += DgvQuotations_SelectionChanged;
         }
 
         public void PrepareForDashboard()
         {
             panel1.Visible = false;
 
-            panel2.Visible = true;
-            panel2.Dock = DockStyle.Right;
-
+            panel3.Visible = true;
             panel3.Dock = DockStyle.Top;
+            panel3.Height = 65;
+
             panel4.Dock = DockStyle.Fill;
 
             PerformLayout();
+        }
+
+        private void QuotationsForm_Load(object? sender, EventArgs e)
+        {
+            ConfigureGrid();
+            UpdateRowActionButtons();
+        }
+
+        private void DgvQuotations_SelectionChanged(object? sender, EventArgs e)
+        {
+            UpdateRowActionButtons();
+        }
+
+        private void UpdateRowActionButtons()
+        {
+            bool hasSelection =
+                dgvQuotations.CurrentRow != null &&
+                dgvQuotations.SelectedRows.Count > 0;
+
+            btnViewDetails.Enabled = hasSelection;
+            btnEditQuotation.Enabled = hasSelection;
+            btnPrintQuotation.Enabled = hasSelection;
+        }
+
+        private void ConfigureGrid()
+        {
+            dgvQuotations.ReadOnly = true;
+            dgvQuotations.AllowUserToAddRows = false;
+            dgvQuotations.AllowUserToDeleteRows = false;
+            dgvQuotations.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvQuotations.MultiSelect = false;
+            dgvQuotations.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgvQuotations.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(245, 248, 248);
+            dgvQuotations.ColumnHeadersDefaultCellStyle.ForeColor = Color.DarkSlateGray;
+            dgvQuotations.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            dgvQuotations.DefaultCellStyle.SelectionBackColor = Color.FromArgb(220, 242, 242);
+            dgvQuotations.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgvQuotations.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 252, 252);
         }
 
         private void btnDashboard_Click(object? sender, EventArgs e) { }
@@ -29,6 +72,7 @@ namespace SandriasDeliciousConcept.Purchasing
         private void btnQuotations_Click(object? sender, EventArgs e) { }
         private void btnPurchaseOrder_Click(object? sender, EventArgs e) { }
         private void btnPurchaseHistory_Click(object? sender, EventArgs e) { }
+
         private void btnNewQuotation_Click(object? sender, EventArgs e)
         {
             MessageBox.Show("New Quotation form will be implemented next.");
@@ -53,6 +97,7 @@ namespace SandriasDeliciousConcept.Purchasing
         {
             MessageBox.Show("Quotation editing will be implemented next.");
         }
+
         private void btnSearch_Click(object? sender, EventArgs e)
         {
             MessageBox.Show(

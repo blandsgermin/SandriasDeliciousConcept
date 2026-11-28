@@ -8,19 +8,42 @@ namespace SandriasDeliciousConcept.Purchasing
         public PurchaseHistoryForm()
         {
             InitializeComponent();
+
+            Load += PurchaseHistoryForm_Load;
+            dgvPurchaseHistory.SelectionChanged += DgvPurchaseHistory_SelectionChanged;
         }
 
         public void PrepareForDashboard()
         {
             panel1.Visible = false;
 
-            panel2.Visible = true;
-            panel2.Dock = DockStyle.Right;
-
+            panel3.Visible = true;
             panel3.Dock = DockStyle.Top;
+            panel3.Height = 65;
+
             panel4.Dock = DockStyle.Fill;
 
             PerformLayout();
+        }
+
+        private void PurchaseHistoryForm_Load(object? sender, EventArgs e)
+        {
+            UpdateRowActionButtons();
+        }
+
+        private void DgvPurchaseHistory_SelectionChanged(object? sender, EventArgs e)
+        {
+            UpdateRowActionButtons();
+        }
+
+        private void UpdateRowActionButtons()
+        {
+            bool hasSelection =
+                dgvPurchaseHistory.CurrentRow != null &&
+                dgvPurchaseHistory.SelectedRows.Count > 0;
+
+            btnViewDetails.Enabled = hasSelection;
+            btnPrintHistory.Enabled = hasSelection;
         }
 
         // NAVIGATION
@@ -33,7 +56,7 @@ namespace SandriasDeliciousConcept.Purchasing
         private void btnPurchaseOrder_Click(object? sender, EventArgs e) { }
         private void btnPurchaseHistory_Click(object? sender, EventArgs e) { }
 
-        // QUICK ACTIONS
+        // ACTIONS
 
         private void btnViewDetails_Click(object? sender, EventArgs e)
         {
