@@ -1,3 +1,6 @@
+
+using System;
+using System.Windows.Forms;
 using SandriasDeliciousConcept.Contracts;
 using SandriasDeliciousConcept.Data;
 using SandriasDeliciousConcept.Requisition;
@@ -11,14 +14,23 @@ internal static class Program
     {
         ApplicationConfiguration.Initialize();
 
-        try { DatabaseInitializer.EnsureCreated(); }
+        try
+        {
+            DatabaseInitializer.EnsureCreated();
+        }
         catch (Exception ex)
         {
-            MessageBox.Show("Could not set up the database:\n" + ex.Message);
+            MessageBox.Show(
+                "Could not set up the database:\n\n" + ex.Message,
+                "Database Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+
             return;
         }
 
         var bus = new EventBus();
+
         var services = new AppServices
         {
             Bus = bus,
@@ -28,14 +40,8 @@ internal static class Program
             Requisition = new RequisitionService(bus)
         };
 
-        while (true)
-        {
-            using var login = new LoginForm(services.Users);
-            if (login.ShowDialog() != DialogResult.OK || login.LoggedInUser is null) break;
+        using var menu = new MainMenuForm(services);
 
-            using var menu = new MainMenuForm(login.LoggedInUser, services);
-            menu.ShowDialog();
-            if (!menu.LoggedOut) break;
-        }
+        Application.Run(menu);
     }
 }

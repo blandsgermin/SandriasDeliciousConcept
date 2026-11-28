@@ -108,6 +108,7 @@ namespace SandriasDeliciousConcept.Purchasing
             btnPurchaseHistory.TabIndex = 7;
             btnPurchaseHistory.Text = "Purchase History";
             btnPurchaseHistory.UseVisualStyleBackColor = true;
+            btnPurchaseHistory.Click += btnPurchaseHistory_Click;
             // 
             // btnPurchaseOrders
             // 
@@ -122,6 +123,7 @@ namespace SandriasDeliciousConcept.Purchasing
             btnPurchaseOrders.TabIndex = 6;
             btnPurchaseOrders.Text = "Purchase Order";
             btnPurchaseOrders.UseVisualStyleBackColor = true;
+            btnPurchaseOrders.Click += btnPurchaseOrders_Click;
             // 
             // btnQuotations
             // 
@@ -136,6 +138,7 @@ namespace SandriasDeliciousConcept.Purchasing
             btnQuotations.TabIndex = 5;
             btnQuotations.Text = "Quotations";
             btnQuotations.UseVisualStyleBackColor = true;
+            btnQuotations.Click += btnQuotations_Click;
             // 
             // btnPurchaseRequests
             // 
@@ -150,6 +153,7 @@ namespace SandriasDeliciousConcept.Purchasing
             btnPurchaseRequests.TabIndex = 4;
             btnPurchaseRequests.Text = "Purchase Request";
             btnPurchaseRequests.UseVisualStyleBackColor = true;
+            btnPurchaseRequests.Click += btnPurchaseRequests_Click;
             // 
             // btnSuppliers
             // 
@@ -164,6 +168,7 @@ namespace SandriasDeliciousConcept.Purchasing
             btnSuppliers.TabIndex = 3;
             btnSuppliers.Text = "Suppliers";
             btnSuppliers.UseVisualStyleBackColor = true;
+            btnSuppliers.Click += btnSuppliers_Click;
             // 
             // btnDashboard
             // 
@@ -181,6 +186,7 @@ namespace SandriasDeliciousConcept.Purchasing
             btnDashboard.TabIndex = 2;
             btnDashboard.Text = "Dashboard";
             btnDashboard.UseVisualStyleBackColor = false;
+            btnDashboard.Click += btnDashboard_Click;
             // 
             // label2
             // 

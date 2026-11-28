@@ -1,4 +1,5 @@
-﻿using SandriasDeliciousConcept.Data;
+﻿
+using SandriasDeliciousConcept.Data;
 using System;
 using System.Data;
 using System.Drawing;
@@ -8,9 +9,13 @@ namespace SandriasDeliciousConcept.Purchasing
 {
     public partial class SupplierForm : Form
     {
-        private readonly SupplierRepository repository = new SupplierRepository();
+        private readonly SupplierRepository repository =
+            new SupplierRepository();
+
         private int selectedSupplierId = 0;
         private bool isEditMode = false;
+        private bool isDashboardMode = false;
+
         private DataTable supplierData = new DataTable();
 
         public SupplierForm()
@@ -22,13 +27,40 @@ namespace SandriasDeliciousConcept.Purchasing
             SetupSearchFilter();
             SetFieldsReadOnly(true);
 
-            // Load database records only when running the application.
             if (System.ComponentModel.LicenseManager.UsageMode
                 != System.ComponentModel.LicenseUsageMode.Designtime)
             {
                 LoadSuppliers();
             }
         }
+
+        public void PrepareForDashboard()
+        {
+            if (isDashboardMode)
+                return;
+
+            isDashboardMode = true;
+
+            // Hide only the duplicate Supplier sidebar.
+            panel1.Visible = false;
+
+            // Keep the Supplier Form header.
+            panel2.Visible = true;
+
+            // Shift the remaining controls to remove the old sidebar space.
+            foreach (Control control in Controls)
+            {
+                if (control == panel1)
+                    continue;
+
+                control.Left -= 230;
+            }
+
+            BackColor = Color.WhiteSmoke;
+
+            PerformLayout();
+        }
+
         private void StyleSupplierButtons()
         {
             Button[] buttons =
@@ -50,8 +82,7 @@ namespace SandriasDeliciousConcept.Purchasing
                 btn.Font = new Font(
                     "Segoe UI",
                     10F,
-                    FontStyle.Bold
-                );
+                    FontStyle.Bold);
 
                 btn.ForeColor = Color.White;
                 btn.Cursor = Cursors.Hand;
@@ -59,6 +90,7 @@ namespace SandriasDeliciousConcept.Purchasing
                 btn.Width = 100;
                 btn.UseVisualStyleBackColor = false;
             }
+
             btnAdd.BackColor = Color.SeaGreen;
             btnView.BackColor = Color.SteelBlue;
             btnEdit.BackColor = Color.DarkOrange;
@@ -66,6 +98,7 @@ namespace SandriasDeliciousConcept.Purchasing
             btnStatus.BackColor = Color.Firebrick;
             btnSearch.BackColor = Color.DarkSlateGray;
             btnRefresh.BackColor = Color.DimGray;
+
             foreach (Button btn in buttons)
             {
                 btn.FlatAppearance.MouseOverBackColor =
@@ -75,6 +108,7 @@ namespace SandriasDeliciousConcept.Purchasing
                     ControlPaint.DarkDark(btn.BackColor);
             }
         }
+
         private void SetupSearchFilter()
         {
             cmbSearchFilter.Items.Clear();
@@ -89,9 +123,12 @@ namespace SandriasDeliciousConcept.Purchasing
                 "Status"
             });
 
-            cmbSearchFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbSearchFilter.DropDownStyle =
+                ComboBoxStyle.DropDownList;
+
             cmbSearchFilter.SelectedIndex = 0;
         }
+
         private void SetupSupplierGrid()
         {
             dgvSuppliers.Columns.Clear();
@@ -107,20 +144,23 @@ namespace SandriasDeliciousConcept.Purchasing
             foreach (DataGridViewColumn column in dgvSuppliers.Columns)
             {
                 column.ReadOnly = true;
-                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                column.AutoSizeMode =
+                    DataGridViewAutoSizeColumnMode.Fill;
             }
 
-            dgvSuppliers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvSuppliers.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+
             dgvSuppliers.MultiSelect = false;
             dgvSuppliers.AllowUserToAddRows = false;
             dgvSuppliers.ReadOnly = true;
         }
+
         private void LoadSuppliers()
         {
             try
             {
                 supplierData = repository.GetAll();
-
                 DisplaySuppliers(supplierData);
             }
             catch (Exception ex)
@@ -146,10 +186,10 @@ namespace SandriasDeliciousConcept.Purchasing
                     supplier["ContactNumber"],
                     supplier["Email"],
                     supplier["Address"],
-                    supplier["Status"]
-                );
+                    supplier["Status"]);
             }
         }
+
         private void SetFieldsReadOnly(bool readOnly)
         {
             txtSupplierName.ReadOnly = readOnly;
@@ -190,6 +230,7 @@ namespace SandriasDeliciousConcept.Purchasing
 
             return true;
         }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
             ClearFields();
@@ -200,6 +241,7 @@ namespace SandriasDeliciousConcept.Purchasing
 
             txtSupplierName.Focus();
         }
+
         private void btnView_Click(object sender, EventArgs e)
         {
             if (!GetSelectedSupplier())
@@ -207,7 +249,8 @@ namespace SandriasDeliciousConcept.Purchasing
 
             try
             {
-                DataTable supplier = repository.GetById(selectedSupplierId);
+                DataTable supplier =
+                    repository.GetById(selectedSupplierId);
 
                 if (supplier.Rows.Count == 0)
                 {
@@ -217,11 +260,20 @@ namespace SandriasDeliciousConcept.Purchasing
 
                 DataRow row = supplier.Rows[0];
 
-                txtSupplierName.Text = row["SupplierName"].ToString();
-                txtContactPerson.Text = row["ContactPerson"].ToString();
-                txtContactNumber.Text = row["ContactNumber"].ToString();
-                txtEmail.Text = row["Email"].ToString();
-                txtAddress.Text = row["Address"].ToString();
+                txtSupplierName.Text =
+                    row["SupplierName"].ToString();
+
+                txtContactPerson.Text =
+                    row["ContactPerson"].ToString();
+
+                txtContactNumber.Text =
+                    row["ContactNumber"].ToString();
+
+                txtEmail.Text =
+                    row["Email"].ToString();
+
+                txtAddress.Text =
+                    row["Address"].ToString();
 
                 SetFieldsReadOnly(true);
 
@@ -229,9 +281,11 @@ namespace SandriasDeliciousConcept.Purchasing
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to view supplier:\n" + ex.Message);
+                MessageBox.Show(
+                    "Failed to view supplier:\n" + ex.Message);
             }
         }
+
         private void btnEdit_Click(object sender, EventArgs e)
         {
             if (!GetSelectedSupplier())
@@ -239,7 +293,8 @@ namespace SandriasDeliciousConcept.Purchasing
 
             try
             {
-                DataTable supplier = repository.GetById(selectedSupplierId);
+                DataTable supplier =
+                    repository.GetById(selectedSupplierId);
 
                 if (supplier.Rows.Count == 0)
                 {
@@ -249,11 +304,20 @@ namespace SandriasDeliciousConcept.Purchasing
 
                 DataRow row = supplier.Rows[0];
 
-                txtSupplierName.Text = row["SupplierName"].ToString();
-                txtContactPerson.Text = row["ContactPerson"].ToString();
-                txtContactNumber.Text = row["ContactNumber"].ToString();
-                txtEmail.Text = row["Email"].ToString();
-                txtAddress.Text = row["Address"].ToString();
+                txtSupplierName.Text =
+                    row["SupplierName"].ToString();
+
+                txtContactPerson.Text =
+                    row["ContactPerson"].ToString();
+
+                txtContactNumber.Text =
+                    row["ContactNumber"].ToString();
+
+                txtEmail.Text =
+                    row["Email"].ToString();
+
+                txtAddress.Text =
+                    row["Address"].ToString();
 
                 SetFieldsReadOnly(false);
 
@@ -263,9 +327,11 @@ namespace SandriasDeliciousConcept.Purchasing
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to edit supplier:\n" + ex.Message);
+                MessageBox.Show(
+                    "Failed to edit supplier:\n" + ex.Message);
             }
         }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtSupplierName.Text))
@@ -290,10 +356,10 @@ namespace SandriasDeliciousConcept.Purchasing
                         txtContactPerson.Text.Trim(),
                         txtContactNumber.Text.Trim(),
                         txtEmail.Text.Trim(),
-                        txtAddress.Text.Trim()
-                    );
+                        txtAddress.Text.Trim());
 
-                    MessageBox.Show("Supplier updated successfully!");
+                    MessageBox.Show(
+                        "Supplier updated successfully!");
                 }
                 else
                 {
@@ -302,11 +368,11 @@ namespace SandriasDeliciousConcept.Purchasing
                         txtContactPerson.Text.Trim(),
                         txtContactNumber.Text.Trim(),
                         txtEmail.Text.Trim(),
-                        txtAddress.Text.Trim()
-                    );
+                        txtAddress.Text.Trim());
 
                     MessageBox.Show(
-                        "Supplier added successfully!\nSupplier ID: " + newSupplierId);
+                        "Supplier added successfully!\nSupplier ID: " +
+                        newSupplierId);
                 }
 
                 ClearFields();
@@ -322,6 +388,7 @@ namespace SandriasDeliciousConcept.Purchasing
                     MessageBoxIcon.Error);
             }
         }
+
         private void btnStatus_Click(object sender, EventArgs e)
         {
             if (!GetSelectedSupplier())
@@ -329,7 +396,8 @@ namespace SandriasDeliciousConcept.Purchasing
 
             try
             {
-                DataTable supplier = repository.GetById(selectedSupplierId);
+                DataTable supplier =
+                    repository.GetById(selectedSupplierId);
 
                 if (supplier.Rows.Count == 0)
                 {
@@ -355,9 +423,12 @@ namespace SandriasDeliciousConcept.Purchasing
                 if (result != DialogResult.Yes)
                     return;
 
-                repository.SetStatus(selectedSupplierId, newStatus);
+                repository.SetStatus(
+                    selectedSupplierId,
+                    newStatus);
 
-                MessageBox.Show("Supplier status updated successfully!");
+                MessageBox.Show(
+                    "Supplier status updated successfully!");
 
                 ClearFields();
                 SetFieldsReadOnly(true);
@@ -366,9 +437,11 @@ namespace SandriasDeliciousConcept.Purchasing
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Failed to change supplier status:\n" + ex.Message);
+                    "Failed to change supplier status:\n" +
+                    ex.Message);
             }
         }
+
         private void btnSearch_Click(object sender, EventArgs e)
         {
             string keyword = txtSearch.Text.Trim();
@@ -411,7 +484,9 @@ namespace SandriasDeliciousConcept.Purchasing
                     foreach (string field in fields)
                     {
                         if (row[field].ToString()!
-                            .Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                            .Contains(
+                                keyword,
+                                StringComparison.OrdinalIgnoreCase))
                         {
                             matches = true;
                             break;
@@ -421,7 +496,9 @@ namespace SandriasDeliciousConcept.Purchasing
                 else
                 {
                     matches = row[columnName].ToString()!
-                        .Contains(keyword, StringComparison.OrdinalIgnoreCase);
+                        .Contains(
+                            keyword,
+                            StringComparison.OrdinalIgnoreCase);
                 }
 
                 if (matches)
@@ -435,6 +512,7 @@ namespace SandriasDeliciousConcept.Purchasing
                 MessageBox.Show("No matching suppliers found.");
             }
         }
+
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             txtSearch.Clear();
@@ -450,64 +528,37 @@ namespace SandriasDeliciousConcept.Purchasing
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
         }
-        private void cmbSearchFilter_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void cmbSearchFilter_SelectedIndexChanged(
+            object sender,
+            EventArgs e)
         {
         }
-
         private void btnAdd_Click_1(object sender, EventArgs e)
         {
+            btnAdd_Click(sender, e);
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
         }
 
-        private void dgvSuppliers_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvSuppliers_CellContentClick(
+            object sender,
+            DataGridViewCellEventArgs e)
         {
         }
 
-        private void txtSupplierName_TextChanged(object sender, EventArgs e)
+        private void txtSupplierName_TextChanged(
+            object sender,
+            EventArgs e)
         {
         }
-
-        private void btnSuppliers_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void btnDashboard_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void btnPurchaseRequest_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void btnQuotations_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void btnPurchaseOrder_Click(object sender, EventArgs e)
-        {
-        }
-        private void btnPurchaseHistory_Click(object sender, EventArgs e)
-        {
-        }
-        public void PrepareForDashboard()
-        {
-            // Hide the SupplierForm sidebar and header
-            panel1.Visible = false;
-            panel2.Visible = false;
-
-            // Move the remaining controls to the left
-            foreach (Control control in Controls)
-            {
-                if (control != panel1 && control != panel2)
-                {
-                    control.Left -= 230;
-                }
-            }
-
-            BackColor = Color.WhiteSmoke;
-        }
+        private void btnSuppliers_Click(object sender, EventArgs e) { }
+        private void btnDashboard_Click(object sender, EventArgs e) { }
+        private void btnPurchaseRequest_Click(object sender, EventArgs e) { }
+        private void btnQuotations_Click(object sender, EventArgs e) { }
+        private void btnPurchaseOrder_Click(object sender, EventArgs e) { }
+        private void btnPurchaseHistory_Click(object sender, EventArgs e) { }
     }
 }

@@ -18,13 +18,32 @@ namespace SandriasDeliciousConcept.Purchasing
             new PrintDocument();
 
         private string _printContent = string.Empty;
+        private bool _isDashboardMode;
 
         public PurchaseRequest()
         {
             InitializeComponent();
 
-            this.Load += PurchaseRequest_Load;
+            Load += PurchaseRequest_Load;
             _printDocument.PrintPage += PrintDocument_PrintPage;
+        }
+
+        public void PrepareForDashboard()
+        {
+            _isDashboardMode = true;
+
+            panel1.Visible = false;
+
+            panel2.Visible = true;
+            panel2.Dock = DockStyle.Right;
+            panel2.Width = 190;
+
+            panel3.Dock = DockStyle.Top;
+            panel3.Height = 65;
+
+            panel4.Dock = DockStyle.Fill;
+
+            PerformLayout();
         }
 
         private void PurchaseRequest_Load(object? sender, EventArgs e)
@@ -50,7 +69,9 @@ namespace SandriasDeliciousConcept.Purchasing
             try
             {
                 DataTable dt = _repository.GetAll();
+
                 dgvPurchaseRequests.DataSource = dt;
+
                 FormatGrid();
                 UpdateSummary(dt);
             }
@@ -106,8 +127,9 @@ namespace SandriasDeliciousConcept.Purchasing
 
             foreach (DataRow row in dt.Rows)
             {
-                string status = dt.Columns.Contains("RequestStatus") &&
-                                row["RequestStatus"] != DBNull.Value
+                string status =
+                    dt.Columns.Contains("RequestStatus") &&
+                    row["RequestStatus"] != DBNull.Value
                     ? Convert.ToString(row["RequestStatus"])?.Trim().ToLowerInvariant() ?? string.Empty
                     : string.Empty;
 
@@ -149,7 +171,8 @@ namespace SandriasDeliciousConcept.Purchasing
                 return 0;
             }
 
-            object? value = dgvPurchaseRequests.CurrentRow.Cells["PurchaseRequestID"].Value;
+            object? value =
+                dgvPurchaseRequests.CurrentRow.Cells["PurchaseRequestID"].Value;
 
             if (value == null ||
                 value == DBNull.Value ||
@@ -187,6 +210,7 @@ namespace SandriasDeliciousConcept.Purchasing
                     : _repository.Search(keyword);
 
                 dgvPurchaseRequests.DataSource = dt;
+
                 FormatGrid();
                 UpdateSummary(dt);
             }
@@ -269,7 +293,8 @@ namespace SandriasDeliciousConcept.Purchasing
                     estimatedBudget = budget;
                 }
 
-                string prNumber = "PR-" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                string prNumber =
+                    "PR-" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
                 int newRequestID = _repository.Add(
                     prNumber,
@@ -322,38 +347,34 @@ namespace SandriasDeliciousConcept.Purchasing
 
                 if (ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
-                    MessageBox.Show(
-                        "Purchase request not found.",
-                        "Not Found",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                    MessageBox.Show("Purchase request not found.");
                     return;
                 }
 
                 DataRow row = ds.Tables[0].Rows[0];
 
-                string currentRequester = GetString(row, "RequestedBy");
-                string currentPurpose = GetString(row, "Purpose");
-                string currentRequiredDate = GetDateString(row, "RequiredDate");
-                string currentBudget = GetDecimalString(row, "EstimatedBudget");
+                string requestedBy = GetString(row, "RequestedBy");
+                string purpose = GetString(row, "Purpose");
+                string requiredDateText = GetDateString(row, "RequiredDate");
+                string budgetText = GetDecimalString(row, "EstimatedBudget");
 
-                string requestedBy = Interaction.InputBox(
+                requestedBy = Interaction.InputBox(
                     "Enter the requester:",
                     "Edit Purchase Request",
-                    currentRequester);
+                    requestedBy);
 
                 if (string.IsNullOrWhiteSpace(requestedBy))
                     return;
 
-                string purpose = Interaction.InputBox(
+                purpose = Interaction.InputBox(
                     "Enter the purpose:",
                     "Edit Purchase Request",
-                    currentPurpose);
+                    purpose);
 
-                string requiredDateText = Interaction.InputBox(
+                requiredDateText = Interaction.InputBox(
                     "Enter the required date (MM/dd/yyyy), or leave blank:",
                     "Edit Purchase Request",
-                    currentRequiredDate);
+                    requiredDateText);
 
                 DateTime? requiredDate = null;
 
@@ -361,21 +382,17 @@ namespace SandriasDeliciousConcept.Purchasing
                 {
                     if (!DateTime.TryParse(requiredDateText, out DateTime parsedDate))
                     {
-                        MessageBox.Show(
-                            "Invalid required date.",
-                            "Invalid Date",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
+                        MessageBox.Show("Invalid required date.");
                         return;
                     }
 
                     requiredDate = parsedDate;
                 }
 
-                string budgetText = Interaction.InputBox(
+                budgetText = Interaction.InputBox(
                     "Enter the estimated budget, or leave blank:",
                     "Edit Purchase Request",
-                    currentBudget);
+                    budgetText);
 
                 decimal? budget = null;
 
@@ -387,23 +404,16 @@ namespace SandriasDeliciousConcept.Purchasing
                         CultureInfo.CurrentCulture,
                         out decimal parsedBudget) || parsedBudget < 0)
                     {
-                        MessageBox.Show(
-                            "Please enter a valid estimated budget.",
-                            "Invalid Budget",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
+                        MessageBox.Show("Please enter a valid estimated budget.");
                         return;
                     }
 
                     budget = parsedBudget;
                 }
 
-                string? requisitionReference =
-                    GetNullableString(row, "RequisitionReference");
-
                 _repository.Update(
                     requestID,
-                    requisitionReference,
+                    GetNullableString(row, "RequisitionReference"),
                     requestedBy.Trim(),
                     requiredDate,
                     string.IsNullOrWhiteSpace(purpose) ? null : purpose.Trim(),
@@ -440,11 +450,7 @@ namespace SandriasDeliciousConcept.Purchasing
 
                 if (ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
-                    MessageBox.Show(
-                        "Purchase request not found.",
-                        "Not Found",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                    MessageBox.Show("Purchase request not found.");
                     return;
                 }
 
@@ -529,11 +535,7 @@ namespace SandriasDeliciousConcept.Purchasing
 
                 if (ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 {
-                    MessageBox.Show(
-                        "Purchase request not found.",
-                        "Not Found",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                    MessageBox.Show("Purchase request not found.");
                     return;
                 }
 
@@ -587,19 +589,20 @@ namespace SandriasDeliciousConcept.Purchasing
             }
         }
 
-        private void PrintDocument_PrintPage(object? sender, PrintPageEventArgs e)
+        private void PrintDocument_PrintPage(
+            object? sender,
+            PrintPageEventArgs e)
         {
             if (e.Graphics == null)
                 return;
 
-            using (Font font = new Font("Arial", 10))
-            {
-                e.Graphics.DrawString(
-                    _printContent,
-                    font,
-                    Brushes.Black,
-                    e.MarginBounds);
-            }
+            using Font font = new Font("Arial", 10);
+
+            e.Graphics.DrawString(
+                _printContent,
+                font,
+                Brushes.Black,
+                e.MarginBounds);
         }
 
         private string GetString(DataRow row, string column)
@@ -639,50 +642,20 @@ namespace SandriasDeliciousConcept.Purchasing
 
             return string.Empty;
         }
-
-        private void btnDashboard_Click(object? sender, EventArgs e)
-        {
-        }
-
-        private void btnSuppliers_Click(object? sender, EventArgs e)
-        {
-        }
+        private void btnDashboard_Click(object? sender, EventArgs e) { }
+        private void btnSuppliers_Click(object? sender, EventArgs e) { }
 
         private void btnPurchaseRequest_Click(object? sender, EventArgs e)
         {
             LoadPurchaseRequests();
         }
-
-        private void button4_Click(object? sender, EventArgs e)
-        {
-        }
-
-        private void btnPurchaseOrder_Click(object? sender, EventArgs e)
-        {
-        }
-
-        private void btnPurchaseHIstory_Click(object? sender, EventArgs e)
-        {
-        }
-
-        private void panel4_Paint(object? sender, PaintEventArgs e)
-        {
-        }
-
-        private void panel5_Paint(object? sender, PaintEventArgs e)
-        {
-        }
-
-        private void panel6_Paint(object? sender, PaintEventArgs e)
-        {
-        }
-
-        private void panel7_Paint(object? sender, PaintEventArgs e)
-        {
-        }
-
-        private void panel8_Paint(object? sender, PaintEventArgs e)
-        {
-        }
+        private void button4_Click(object? sender, EventArgs e) { }
+        private void btnPurchaseOrder_Click(object? sender, EventArgs e) { }
+        private void btnPurchaseHIstory_Click(object? sender, EventArgs e) { }
+        private void panel4_Paint(object? sender, PaintEventArgs e) { }
+        private void panel5_Paint(object? sender, PaintEventArgs e) { }
+        private void panel6_Paint(object? sender, PaintEventArgs e) { }
+        private void panel7_Paint(object? sender, PaintEventArgs e) { }
+        private void panel8_Paint(object? sender, PaintEventArgs e) { }
     }
 }

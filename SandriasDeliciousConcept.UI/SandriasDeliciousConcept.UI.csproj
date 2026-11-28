@@ -13,6 +13,7 @@
     <ProjectReference Include="..\SandriasDeliciousConcept.Contracts\SandriasDeliciousConcept.Contracts.csproj" />
     <ProjectReference Include="..\SandriasDeliciousConcept.Data\SandriasDeliciousConcept.Data.csproj" />
     <ProjectReference Include="..\SandriasDeliciousConcept.Inventory\SandriasDeliciousConcept.Inventory.csproj" />
+    <ProjectReference Include="..\SandriasDeliciousConcept.Purchasing\SandriasDeliciousConcept.Purchasing.csproj" />
     <ProjectReference Include="..\SandriasDeliciousConcept.Requisition\SandriasDeliciousConcept.Requisition.csproj" />
   </ItemGroup>
 
